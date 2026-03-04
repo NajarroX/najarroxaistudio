@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAJARRO X ESTUDIO | Dirección de Arte con IA</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        :root { --primary: #0a0a0a; --accent: #3d5afe; --success: #00c853; --radius: 16px; --bg-home: url('https://images.unsplash.com/photo-1634017839464-5c339b3c2b4f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); }
+        html { scroll-behavior: smooth; }
+        * { box-sizing: border-box; font-family: 'Inter', sans-serif; transition: all 0.3s ease; }
+        body { background: #fdfdfd; color: var(--primary); margin: 0; padding: 0; min-height: 100vh; }
+        .nav-bar { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 2000; border-bottom: 1px solid rgba(0,0,0,0.1); }
+        .logo { font-weight: 900; font-size: 1.2rem; letter-spacing: 2px; cursor: pointer; text-transform: uppercase; }
+        #home { height: 100vh; width: 100%; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), var(--bg-home); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 0 20px; }
+        .highlight { color: var(--accent); font-weight: 900; }
+        .main-container { max-width: 1100px; margin: 0 auto; padding: 100px 20px 60px; }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .sticky-nav { position: sticky; top: 75px; z-index: 1500; background: rgba(253, 253, 253, 0.9); padding: 10px 0; margin-bottom: 20px; backdrop-filter: blur(5px); }
+        .btn-back-main { background: #f0f0f0; color: var(--primary); border: none; padding: 10px 20px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 8px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .card { background: white; border-radius: var(--radius); padding: 30px; border: 1px solid #eee; box-shadow: 0 10px 30px rgba(0,0,0,0.02); position: relative; display: flex; flex-direction: column; }
+        .bundle-specs { background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 0.85rem; border-left: 4px solid var(--accent); line-height: 1.5; }
+        .btn-main { background: var(--accent); color: white; border: none; padding: 18px 35px; border-radius: 50px; font-weight: 700; cursor: pointer; width: 100%; text-transform: uppercase; margin-top: auto; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.8rem; color: #555; }
+        input, select, textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; font-size: 0.9rem; }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+        .color-picker-group input[type="color"] { width: 60px; height: 45px; padding: 5px; flex-shrink: 0; cursor: pointer; border-radius: 8px; }
+        .color-picker-group input[type="text"] { flex-grow: 1; }
+        .color-section-title { font-size: 0.9rem; font-weight: 600; margin: 15px 0 5px 0; color: var(--primary); }
+        .checkbox-group { display: grid; grid-template-columns: 1fr; gap: 8px; background: #fff; padding: 10px; border: 1px solid #eee; border-radius: 10px; }
+        .checkbox-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; cursor: pointer; }
+        .checkbox-item input { width: auto; }
+        footer { background: #000; color: white; padding: 60px 20px; text-align: center; }
+        .footer-logo-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .footer-logo-img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; }
+        .social-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 25px; }
+        .social-links a { color: var(--accent); text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+        .tagline { font-size: 1.2rem; letter-spacing: 4px; font-weight: 300; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="nav-bar">
+    <div class="logo" onclick="resetToHome()">NAJARRO X ESTUDIO</div>
+    <div style="font-size: 0.7rem; font-weight: 800; color: var(--accent);">DIRECCIÓN DE ARTE IA | PANAMÁ</div>
+</div>
+
+<div id="home" class="section active">
+    <div class="tagline">DIRECCIÓN DE ARTE + INTELIGENCIA ARTIFICIAL</div>
+    <h1 style="font-size: clamp(2.2rem, 8vw, 4.5rem); margin: 10px 0 0; font-weight: 900; letter-spacing: -2px;">CREA TU <span class="highlight">UNIVERSO</span></h1>
+    <p style="font-size: 1.2rem; margin: 20px 0 40px; opacity: 0.9; max-width: 700px;">No solo generamos imágenes. Diseñamos mundos, personajes y activos de marca con una visión estratégica y curada. Producción con IA, dirección con alma.</p>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+        <button class="btn-main" style="width:auto" onclick="navigateTo('bundles')">Ver Bundles</button>
+        <button onclick="navigateTo('custom')" style="background:transparent; border:2px solid white; color:white; padding:18px 35px; border-radius:50px; cursor:pointer; font-weight:700;">Proyecto a Medida</button>
+    </div>
+</div>
+
+<div class="main-container">
+    <div id="bundles" class="section">
+        <div class="sticky-nav"><button class="btn-back-main" onclick="resetToHome()">← VOLVER AL INICIO</button></div>
+        <h2 style="margin-bottom: 10px;">Bundles con Dirección de Arte Aplicada (Entrega desde 24h)</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>AVATAR PACK</h3>
+                <div class="bundle-specs">• 10 Imágenes 4K de un personaje/mascota único<br>• 1 Personaje desarrollado en 10 poses/expresiones<br>• Guía de personalidad del personaje<br>• Ideal para branding, mascotas de marca, NFTs<br>• Entrega: 24 Horas</div>
+                <div class="form-group"><label>Formato Principal:</label><select id="s-ratio"><option>9:16 (Vertical - Reels/Stories)</option><option>16:9 (Horizontal - Web/Youtube)</option><option>1:1 (Cuadrado - Feed)</option></select></div>
+                <div style="font-size: 2.2rem; font-weight: 900; margin-bottom: 20px;">$120</div>
+                <button class="btn-main" onclick="saveBundle('AVATAR PACK', 120, 'single', 's-ratio', 10)">Seleccionar</button>
+            </div>
+            <div class="card" style="border: 2px solid var(--accent);">
+                <h3>PRODUCT SHOT PACK</h3>
+                <div class="bundle-specs">• 25 Imágenes 4K de un producto físico existente<br>• Diferentes ángulos, fondos y contextos<br>• Narrativa visual del producto (estilo de vida, aspiracional)<br>• Ideal e-commerce, catálogos, campañas de lanzamiento<br>• Entrega: 48 Horas</div>
+                <div class="form-group"><label>Formato Principal:</label><select id="p-ratio"><option>9:16 (Vertical - Reels/Stories)</option><option>16:9 (Horizontal - Web/Youtube)</option><option>1:1 (Cuadrado - Feed)</option></select></div>
+                <div style="font-size: 2.2rem; font-weight: 900; margin-bottom: 20px;">$250</div>
+                <button class="btn-main" onclick="saveBundle('PRODUCT SHOT PACK', 250, 'single', 'p-ratio', 25)">Seleccionar</button>
+            </div>
+            <div class="card">
+                <h3>UNIVERSE PACK</h3>
+                <div class="bundle-specs">• 15 Imágenes 4K de un universo conceptual<br>• 3 Videos IA para Reels (máx. 15s c/u) del mundo creado<br>• Guía de worldbuilding (atmósfera, reglas visuales)<br>• Ideal para campañas conceptuales, mood films, worldbuilding<br>• Entrega: 5-7 Días</div>
+                <div class="form-group"><label>Formato Principal (Videos):</label><select id="u-ratio"><option>9:16 (Vertical - Reels/Stories)</option><option>16:9 (Horizontal - Web/Youtube)</option></select></div>
+                <div style="font-size: 2.2rem; font-weight: 900; margin-bottom: 20px;">$450</div>
+                <button class="btn-main" onclick="saveBundle('UNIVERSE PACK', 450, 'single', 'u-ratio', 15)">Seleccionar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="custom" class="section">
+        <div class="sticky-nav"><button class="btn-back-main" onclick="resetToHome()">← VOLVER AL INICIO</button></div>
+        <div class="card" style="max-width: 700px; margin: 0 auto; text-align: left;">
+            <h2 style="text-align: center;">Brief de Dirección de Arte</h2>
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 25px; text-align: center;">Cuéntanos tu visión. Nosotros la convertimos en un universo coherente y estratégico.</p>
+            
+            <div class="form-group"><label>Nombre del Proyecto / Marca *</label><input type="text" id="brief-name" placeholder="Ej: Lanzamiento Zapatillas 'Neo-Run'"></div>
+            
+            <div class="form-group"><label>Tipo de Proyecto Principal *</label>
+                <select id="brief-type" onchange="updateCustomTotal()">
+                    <option value="product">Product Shots (Fotografía de producto conceptual)</option>
+                    <option value="character">Personaje / Mascota / AVATAR</option>
+                    <option value="world">Mundo / Universo Visual</option>
+                </select>
+            </div>
+
+            <div class="form-group"><label>Descripción Detallada (El "Prompt Base") *</label><textarea id="brief-description" rows="3" placeholder="Describe tu producto, los valores de tu marca, la personalidad del personaje, la atmósfera del mundo..."></textarea></div>
+            
+            <div class="form-group"><label>Referencias de Estilo</label><textarea id="brief-references" rows="2" placeholder="Links de Pinterest, moodboards, películas, artistas. Ej: 'Blade Runner 2049 meets Apple Store'"></textarea></div>
+            
+            <!-- Paleta de 3 Colores -->
+            <div class="color-section-title">🎨 Paleta de Color Estratégica</div>
+            
+            <div class="form-group">
+                <label>Color Principal (Identidad de marca)</label>
+                <div class="color-picker-group">
+                    <input type="color" id="brief-color-1-picker" value="#3d5afe" oninput="document.getElementById('brief-color-1-hex').value = this.value">
+                    <input type="text" id="brief-color-1-hex" placeholder="#3d5afe" value="#3d5afe" oninput="document.getElementById('brief-color-1-picker').value = this.value">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Color Secundario (Complemento / Contraste)</label>
+                <div class="color-picker-group">
+                    <input type="color" id="brief-color-2-picker" value="#00c853" oninput="document.getElementById('brief-color-2-hex').value = this.value">
+                    <input type="text" id="brief-color-2-hex" placeholder="#00c853" value="#00c853" oninput="document.getElementById('brief-color-2-picker').value = this.value">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Color de Acento (Detalles/Highlight)</label>
+                <div class="color-picker-group">
+                    <input type="color" id="brief-color-3-picker" value="#ff6d00" oninput="document.getElementById('brief-color-3-hex').value = this.value">
+                    <input type="text" id="brief-color-3-hex" placeholder="#ff6d00" value="#ff6d00" oninput="document.getElementById('brief-color-3-picker').value = this.value">
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+                <div class="form-group"><label>Formato de Imagen *</label><select id="brief-format"><option>9:16 (Vertical)</option><option>16:9 (Horizontal)</option><option>1:1 (Cuadrado)</option></select></div>
+                <div class="form-group"><label>Cantidad de Piezas Finales *</label><input type="number" id="brief-qty" value="5" min="1" oninput="updateCustomTotal()"></div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; background: #f5f5f5; padding: 15px; border-radius: 10px; margin: 20px 0;">
+                <span style="font-weight: 700;">Precio Base por Pieza (dirección de arte incluida):</span>
+                <span style="font-size: 1.5rem; font-weight: 900; color: var(--accent);" id="price-per-unit">$15</span>
+            </div>
+            
+            <div style="font-size: 2.5rem; font-weight: 900; margin: 20px 0; text-align: center; background: linear-gradient(45deg, var(--accent), #6200ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                Total: $<span id="p-total">75</span>
+            </div>
+            <p style="font-size:0.7rem; color:#888; text-align: center;">*El precio incluye nuestra curaduría y dirección de arte. Proyectos con video tienen costo adicional (cotización por separado).</p>
+            <button class="btn-main" onclick="saveCustom()">Continuar a Datos de Contacto</button>
+        </div>
+    </div>
+
+    <div id="client-data" class="section">
+        <div class="sticky-nav"><button class="btn-back-main" id="back-to-source">← REGRESAR</button></div>
+        <div class="card" style="max-width: 500px; margin: 0 auto;">
+            <h2>Contacto</h2>
+            <div class="form-group"><label>Nombre *</label><input type="text" id="c-name"></div>
+            <div class="form-group"><label>WhatsApp *</label><input type="text" id="c-phone" placeholder="+507 1234-5678"></div>
+            <div class="form-group"><label>Email *</label><input type="email" id="c-email" placeholder="cliente@email.com"></div>
+            <button class="btn-main" onclick="finalStep()">Generar Cotización</button>
+        </div>
+    </div>
+
+    <div id="actions" class="section">
+        <div class="card" style="text-align: center; max-width: 500px; margin: 0 auto;">
+            <h2 style="color: var(--success);">¡Propuesta Lista!</h2>
+            <div id="final-summary" style="margin: 30px 0;"></div>
+            <button class="btn-main" onclick="downloadPDF()">Descargar PDF</button>
+            <button class="btn-main" style="background:#25D366; margin-top:12px;" onclick="sendWhatsApp()">Confirmar WhatsApp</button>
+            <button class="btn-back-main" style="margin-top: 30px; width:100%; justify-content:center;" onclick="resetToHome()">INICIO</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-logo-container">
+        <img src="images/NAJARROX-logoB.png" alt="Logo" class="footer-logo-img" onerror="this.style.display='none'">
+        <div class="logo">NAJARRO X ESTUDIO</div>
+    </div>
+    <div class="social-links">
+        <a href="https://www.youtube.com/@najarrox" target="_blank">YouTube</a>
+        <a href="https://www.tiktok.com/@najarrox" target="_blank">TikTok</a>
+        <a href="https://instagram.com/najarrox.exe" target="_blank">Instagram</a>
+        <a href="https://linktr.ee/najarrox" target="_blank">Linktree</a>
+        <a href="mailto:najarrox@gmail.com">Correo</a>
+    </div>
+    <p style="margin-top:30px; font-size:0.7rem; opacity:0.5;">&copy; 2026 NAJARRO X ESTUDIO. Dirección de Arte + IA.</p>
+</footer>
+
+<script>
+    const { jsPDF } = window.jspdf;
+    let quoteData = {};
+
+    function navigateTo(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(id);
+        target.classList.add('active');
+        const headerOffset = 80;
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
+
+    function resetToHome() { 
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById('home').classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateCustomTotal() {
+        const qty = parseInt(document.getElementById('brief-qty').value) || 0;
+        const projectType = document.getElementById('brief-type').value;
+        let pricePerUnit = 15; // Base price for images
+        
+        if (projectType === 'world') {
+            pricePerUnit = 20; // Worlds more complex
+        } else if (projectType === 'character') {
+            pricePerUnit = 18; // Characters require consistency
+        }
+        
+        const total = qty * pricePerUnit;
+        document.getElementById('p-total').innerText = total;
+        document.getElementById('price-per-unit').innerText = `$${pricePerUnit}`;
+    }
+
+    function saveBundle(serviceName, precio, tipo, ratioId, cantidadPiezas) {
+        quoteData = { 
+            service: "BUNDLE - " + serviceName, 
+            subtotal: precio, 
+            detail: `Formato: ${document.getElementById(ratioId).value}\nCantidad de piezas base: ${cantidadPiezas}\nIncluye dirección de arte y guía de estilo.\nEntrega: 24-72h (según pack)`,
+            applyDiscount: false 
+        };
+        document.getElementById('back-to-source').onclick = () => navigateTo('bundles');
+        navigateTo('client-data');
+    }
+
+    function saveCustom() {
+        const projectName = document.getElementById('brief-name').value;
+        const projectType = document.getElementById('brief-type').selectedOptions[0].text;
+        const description = document.getElementById('brief-description').value;
+        const references = document.getElementById('brief-references').value;
+        
+        // Obtener los 3 colores
+        const color1 = document.getElementById('brief-color-1-hex').value;
+        const color2 = document.getElementById('brief-color-2-hex').value;
+        const color3 = document.getElementById('brief-color-3-hex').value;
+        
+        const format = document.getElementById('brief-format').value;
+        const qty = document.getElementById('brief-qty').value;
+        const total = document.getElementById('p-total').innerText;
+
+        if (!projectName) { alert("Por favor, ingresa el nombre del proyecto."); return; }
+        if (!description) { alert("Por favor, ingresa una descripción detallada."); return; }
+
+        quoteData = { 
+            service: "PROYECTO A MEDIDA", 
+            subtotal: parseInt(total), 
+            detail: `Proyecto: ${projectName}\nTipo: ${projectType}\nFormato: ${format}\nCantidad: ${qty} piezas\n🎨 Paleta:\n- Principal: ${color1}\n- Secundario: ${color2}\n- Acento: ${color3}\n\nDESCRIPCIÓN:\n${description}\n\nREFERENCIAS:\n${references || 'No especificadas'}\n\n*Incluye dirección de arte y curaduría visual.`,
+            applyDiscount: false
+        };
+        document.getElementById('back-to-source').onclick = () => navigateTo('custom');
+        navigateTo('client-data');
+    }
+
+    function finalStep() {
+        const name = document.getElementById('c-name').value;
+        if (!name) { alert("Por favor ingresa tu nombre."); return; }
+        
+        quoteData.clientName = name;
+        quoteData.total = quoteData.subtotal;
+        document.getElementById('final-summary').innerHTML = `<div style="font-size:3rem; font-weight:900; color:var(--accent);">$${quoteData.total.toFixed(2)}</div>`;
+        navigateTo('actions');
+    }
+
+    function sendWhatsApp() {
+        const msg = `*NAJARRO X ESTUDIO (Dirección de Arte + IA)*%0A%0A*Cliente:* ${quoteData.clientName}%0A*Servicio:* ${quoteData.service}%0A*Total:* $${quoteData.total.toFixed(2)}%0A%0A*Detalles del Proyecto:*%0A${quoteData.detail.replace(/\n/g, '%0A')}`;
+        window.open(`https://wa.me/50764614851?text=${msg}`);
+    }
+
+    function downloadPDF() {
+        const doc = new jsPDF();
+        
+        // Header
+        doc.setFillColor(10, 10, 10); 
+        doc.rect(0, 0, 210, 40, 'F');
+        doc.setTextColor(255, 255, 255); 
+        doc.setFontSize(22); 
+        doc.setFont("helvetica", "bold"); 
+        doc.text("NAJARRO X ESTUDIO", 15, 25);
+        doc.setFontSize(10);
+        doc.text("Dirección de Arte + Inteligencia Artificial", 15, 33);
+        
+        // Client Info
+        doc.setTextColor(0,0,0); 
+        doc.setFontSize(10); 
+        doc.text(`CLIENTE: ${quoteData.clientName}`, 15, 55);
+        doc.text(`FECHA: ${new Date().toLocaleDateString()}`, 160, 55);
+        
+        // Table
+        doc.autoTable({ 
+            startY: 70, 
+            head: [['DESCRIPCIÓN DEL SERVICIO', 'VALOR']], 
+            body: [[`${quoteData.service}\n\n${quoteData.detail}`, `$${quoteData.subtotal.toFixed(2)}`]], 
+            theme: 'grid', 
+            headStyles: { fillColor: [0,0,0] },
+            styles: { overflow: 'linebreak', cellWidth: 'wrap' },
+            columnStyles: { 0: { cellWidth: 130 }, 1: { cellWidth: 40, halign: 'center' } }
+        });
+        
+        let finalY = doc.lastAutoTable.finalY + 15;
+        doc.setFontSize(14); 
+        doc.text(`TOTAL FINAL: $${quoteData.total.toFixed(2)} USD`, 195, finalY, {align:'right'});
+        
+        finalY += 25;
+        doc.setFontSize(9); 
+        doc.setFont("helvetica", "bold"); 
+        doc.text("NOTAS IMPORTANTES:", 15, finalY);
+        doc.setFont("helvetica", "normal");
+        const notas = [
+            "- Esta cotización incluye dirección de arte y curaduría estratégica.",
+            "- El tiempo de entrega inicia tras la confirmación del pago y la aprobación del brief.",
+            "- Los derechos comerciales completos están incluidos.",
+            "- Aceptación mediante WhatsApp o correo electrónico."
+        ];
+        doc.text(notas, 15, finalY + 7);
+        doc.save(`Cotizacion_IA_${quoteData.clientName.replace(/\s+/g, '_')}.pdf`);
+    }
+
+    // Initialize total on page load for custom
+    window.onload = function() {
+        updateCustomTotal();
+    };
+</script>
+</body>
+</html>
