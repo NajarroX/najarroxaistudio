@@ -28,6 +28,7 @@
         .form-group { margin-bottom: 15px; text-align: left; }
         label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.8rem; color: #555; }
         input, select, textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; font-size: 0.9rem; }
+        .char-counter { font-size: 0.7rem; color: #888; text-align: right; margin-top: 4px; }
         .color-picker-group { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
         .color-picker-group input[type="color"] { width: 60px; height: 45px; padding: 5px; flex-shrink: 0; cursor: pointer; border-radius: 8px; }
         .color-picker-group input[type="text"] { flex-grow: 1; }
@@ -41,6 +42,16 @@
         .social-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 25px; }
         .social-links a { color: var(--accent); text-decoration: none; font-weight: bold; font-size: 0.9rem; }
         .tagline { font-size: 1.2rem; letter-spacing: 4px; font-weight: 300; margin-bottom: 10px; }
+        /* Ocultar información de precios en el Brief y en "¡Propuesta Lista!" */
+        .hidden-price, .hidden-total { display: none; }
+        
+        /* Estilo para los campos de cantidad en grid */
+        .quantity-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -59,7 +70,7 @@
         <button onclick="window.open('https://najarroxaistudio.netlify.app/info.html', '_self')" style="background:transparent; border:2px solid white; color:white; padding:18px 35px; border-radius:50px; cursor:pointer; font-weight:700;">INFO</button>
         <button class="btn-main" style="width:auto" onclick="navigateTo('bundles')">Ver Bundles</button>
         <button onclick="navigateTo('custom')" style="background:transparent; border:2px solid white; color:white; padding:18px 35px; border-radius:50px; cursor:pointer; font-weight:700;">Proyecto a Medida</button>
-</div>
+    </div>
 </div>
 
 <div class="main-container">
@@ -70,23 +81,39 @@
             <div class="card">
                 <h3>AVATAR PACK</h3>
                 <div class="bundle-specs">• 10 Imágenes 4K de un personaje/mascota único<br>• 1 Personaje desarrollado en 10 poses/expresiones<br>• Guía de personalidad del personaje<br>• Ideal para branding, mascotas de marca, NFTs<br>• Entrega: 24 Horas</div>
+                <div class="form-group">
+                    <label>Descripción breve de tu idea (máx. 200 caracteres)</label>
+                    <textarea id="s-description" maxlength="200" placeholder="Cuéntanos brevemente qué personaje tienes en mente..."></textarea>
+                    <div class="char-counter"><span id="s-counter">0</span>/200 caracteres</div>
+                </div>
                 <div class="form-group"><label>Formato Principal:</label><select id="s-ratio"><option>9:16 (Vertical - Reels/Stories)</option><option>16:9 (Horizontal - Web/Youtube)</option><option>1:1 (Cuadrado - Feed)</option></select></div>
                 <div style="font-size: 2.2rem; font-weight: 900; margin-bottom: 20px;">$120</div>
-                <button class="btn-main" onclick="saveBundle('AVATAR PACK', 120, 'single', 's-ratio', 10)">Seleccionar</button>
+                <button class="btn-main" onclick="saveBundle('AVATAR PACK', 120, 's-description', 's-ratio', 10)">Seleccionar</button>
             </div>
             <div class="card" style="border: 2px solid var(--accent);">
                 <h3>PRODUCT SHOT PACK</h3>
                 <div class="bundle-specs">• 25 Imágenes 4K de un producto físico existente<br>• Diferentes ángulos, fondos y contextos<br>• Narrativa visual del producto (estilo de vida, aspiracional)<br>• Ideal e-commerce, catálogos, campañas de lanzamiento<br>• Entrega: 48 Horas</div>
+                <div class="form-group">
+                    <label>Descripción breve de tu producto (máx. 200 caracteres)</label>
+                    <textarea id="p-description" maxlength="200" placeholder="Describe tu producto y el estilo que buscas..."></textarea>
+                    <div class="char-counter"><span id="p-counter">0</span>/200 caracteres</div>
+                </div>
                 <div class="form-group"><label>Formato Principal:</label><select id="p-ratio"><option>9:16 (Vertical - Reels/Stories)</option><option>16:9 (Horizontal - Web/Youtube)</option><option>1:1 (Cuadrado - Feed)</option></select></div>
                 <div style="font-size: 2.2rem; font-weight: 900; margin-bottom: 20px;">$250</div>
-                <button class="btn-main" onclick="saveBundle('PRODUCT SHOT PACK', 250, 'single', 'p-ratio', 25)">Seleccionar</button>
+                <button class="btn-main" onclick="saveBundle('PRODUCT SHOT PACK', 250, 'p-description', 'p-ratio', 25)">Seleccionar</button>
             </div>
             <div class="card">
                 <h3>UNIVERSE PACK</h3>
                 <div class="bundle-specs">• 15 Imágenes 4K de un universo conceptual<br>• 3 Videos IA para Reels (máx. 15s c/u) del mundo creado<br>• Guía de worldbuilding (atmósfera, reglas visuales)<br>• Ideal para campañas conceptuales, mood films, worldbuilding<br>• Entrega: 5-7 Días</div>
-                <div class="form-group"><label>Formato Principal (Videos):</label><select id="u-ratio"><option>9:16 (Vertical - Reels/Stories)</option><option>16:9 (Horizontal - Web/Youtube)</option></select></div>
+                <div class="form-group">
+                    <label>Descripción breve de tu universo (máx. 200 caracteres)</label>
+                    <textarea id="u-description" maxlength="200" placeholder="Cuéntanos la atmósfera, el concepto..."></textarea>
+                    <div class="char-counter"><span id="u-counter">0</span>/200 caracteres</div>
+                </div>
+                <div class="form-group"><label>Formato de Imágenes:</label><select id="u-image-ratio"><option>9:16 (Vertical - Reels/Stories)</option><option>16:9 (Horizontal - Web/Youtube)</option><option>1:1 (Cuadrado - Feed)</option></select></div>
+                <div class="form-group"><label>Formato de Videos:</label><select id="u-video-ratio"><option>9:16 (Vertical - Reels/Stories)</option><option>16:9 (Horizontal - Web/Youtube)</option></select></div>
                 <div style="font-size: 2.2rem; font-weight: 900; margin-bottom: 20px;">$450</div>
-                <button class="btn-main" onclick="saveBundle('UNIVERSE PACK', 450, 'single', 'u-ratio', 15)">Seleccionar</button>
+                <button class="btn-main" onclick="saveBundleUniverse()">Seleccionar</button>
             </div>
         </div>
     </div>
@@ -95,12 +122,12 @@
         <div class="sticky-nav"><button class="btn-back-main" onclick="resetToHome()">← VOLVER AL INICIO</button></div>
         <div class="card" style="max-width: 700px; margin: 0 auto; text-align: left;">
             <h2 style="text-align: center;">Brief de Dirección de Arte</h2>
-            <p style="font-size: 0.85rem; color: #666; margin-bottom: 25px; text-align: center;">Cuéntanos tu visión. Nosotros la convertimos en un universo coherente y estratégico.</p>
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 25px; text-align: center;">Cuéntanos tu visión. Nosotros la convertimos en un universo coherente y estratégico. Recibirás una propuesta detallada en PDF.</p>
             
             <div class="form-group"><label>Nombre del Proyecto / Marca *</label><input type="text" id="brief-name" placeholder="Ej: Lanzamiento Zapatillas 'Neo-Run'"></div>
             
             <div class="form-group"><label>Tipo de Proyecto Principal *</label>
-                <select id="brief-type" onchange="updateCustomTotal()">
+                <select id="brief-type" onchange="toggleVideoFields()">
                     <option value="product">Product Shots (Fotografía de producto conceptual)</option>
                     <option value="character">Personaje / Mascota / AVATAR</option>
                     <option value="world">Mundo / Universo Visual</option>
@@ -138,20 +165,37 @@
                 </div>
             </div>
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
-                <div class="form-group"><label>Formato de Imagen *</label><select id="brief-format"><option>9:16 (Vertical)</option><option>16:9 (Horizontal)</option><option>1:1 (Cuadrado)</option></select></div>
-                <div class="form-group"><label>Cantidad de Piezas Finales *</label><input type="number" id="brief-qty" value="5" min="1" oninput="updateCustomTotal()"></div>
+            <!-- PRIMERO: Aspect Ratio para Videos (condicional) -->
+            <div id="video-ratio-field" class="form-group" style="display: none;">
+                <label>Aspect Ratio para Videos *</label>
+                <select id="video-ratio">
+                    <option value="9:16">9:16 (Vertical - Ideal para Reels/Stories)</option>
+                    <option value="16:9">16:9 (Horizontal - Ideal para Web/Youtube)</option>
+                </select>
             </div>
             
-            <div style="display: flex; justify-content: space-between; align-items: center; background: #f5f5f5; padding: 15px; border-radius: 10px; margin: 20px 0;">
-                <span style="font-weight: 700;">Precio Base por Pieza (dirección de arte incluida):</span>
-                <span style="font-size: 1.5rem; font-weight: 900; color: var(--accent);" id="price-per-unit">$15</span>
+            <!-- SEGUNDO: Formato de Imagen -->
+            <div class="form-group"><label>Formato de Imagen *</label><select id="brief-format"><option>9:16 (Vertical)</option><option>16:9 (Horizontal)</option><option>1:1 (Cuadrado)</option></select></div>
+            
+            <!-- CAMPOS DE CANTIDAD SEPARADOS PARA IMÁGENES Y VIDEOS -->
+            <div class="quantity-grid">
+                <div class="form-group">
+                    <label>Cantidad de Imágenes *</label>
+                    <input type="number" id="brief-qty-images" value="5" min="0">
+                </div>
+                <!-- Campo de Videos (condicional) -->
+                <div id="videos-quantity-field" class="form-group">
+                    <label>Cantidad de Videos</label>
+                    <input type="number" id="brief-qty-videos" value="0" min="0">
+                </div>
             </div>
             
-            <div style="font-size: 2.5rem; font-weight: 900; margin: 20px 0; text-align: center; background: linear-gradient(45deg, var(--accent), #6200ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                Total: $<span id="p-total">75</span>
+            <!-- Información de precio OCULTA (no se muestra al usuario) -->
+            <div class="hidden-price">
+                <div id="price-per-unit">$15</div>
+                <div id="p-total">75</div>
             </div>
-            <p style="font-size:0.7rem; color:#888; text-align: center;">*El precio incluye nuestra curaduría y dirección de arte. Proyectos con video tienen costo adicional (cotización por separado).</p>
+
             <button class="btn-main" onclick="saveCustom()">Continuar a Datos de Contacto</button>
         </div>
     </div>
@@ -170,7 +214,7 @@
     <div id="actions" class="section">
         <div class="card" style="text-align: center; max-width: 500px; margin: 0 auto;">
             <h2 style="color: var(--success);">¡Propuesta Lista!</h2>
-            <div id="final-summary" style="margin: 30px 0;"></div>
+            <div id="final-summary" class="hidden-total" style="margin: 30px 0;"></div>
             <button class="btn-main" onclick="downloadPDF()">Descargar PDF</button>
             <button class="btn-main" style="background:#25D366; margin-top:12px;" onclick="sendWhatsApp()">Confirmar WhatsApp</button>
             <button class="btn-back-main" style="margin-top: 30px; width:100%; justify-content:center;" onclick="resetToHome()">INICIO</button>
@@ -197,6 +241,25 @@
     const { jsPDF } = window.jspdf;
     let quoteData = {};
 
+    // Contadores de caracteres para los bundles
+    document.addEventListener('DOMContentLoaded', function() {
+        // Contador para Avatar Pack
+        document.getElementById('s-description')?.addEventListener('input', function() {
+            document.getElementById('s-counter').textContent = this.value.length;
+        });
+        // Contador para Product Shot Pack
+        document.getElementById('p-description')?.addEventListener('input', function() {
+            document.getElementById('p-counter').textContent = this.value.length;
+        });
+        // Contador para Universe Pack
+        document.getElementById('u-description')?.addEventListener('input', function() {
+            document.getElementById('u-counter').textContent = this.value.length;
+        });
+        
+        // Inicializar visibilidad de campos de video
+        toggleVideoFields();
+    });
+
     function navigateTo(id) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         const target = document.getElementById(id);
@@ -213,27 +276,40 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function updateCustomTotal() {
-        const qty = parseInt(document.getElementById('brief-qty').value) || 0;
+    function toggleVideoFields() {
         const projectType = document.getElementById('brief-type').value;
-        let pricePerUnit = 15; // Base price for images
+        const videoRatioField = document.getElementById('video-ratio-field');
+        const videosQuantityField = document.getElementById('videos-quantity-field');
         
         if (projectType === 'world') {
-            pricePerUnit = 20; // Worlds more complex
-        } else if (projectType === 'character') {
-            pricePerUnit = 18; // Characters require consistency
+            videoRatioField.style.display = 'block';
+            videosQuantityField.style.display = 'block';
+        } else {
+            videoRatioField.style.display = 'none';
+            videosQuantityField.style.display = 'none';
         }
-        
-        const total = qty * pricePerUnit;
-        document.getElementById('p-total').innerText = total;
-        document.getElementById('price-per-unit').innerText = `$${pricePerUnit}`;
     }
 
-    function saveBundle(serviceName, precio, tipo, ratioId, cantidadPiezas) {
+    function saveBundle(serviceName, precio, descId, ratioId, cantidadPiezas) {
+        const description = document.getElementById(descId).value || 'Sin descripción';
         quoteData = { 
             service: "BUNDLE - " + serviceName, 
             subtotal: precio, 
-            detail: `Formato: ${document.getElementById(ratioId).value}\nCantidad de piezas base: ${cantidadPiezas}\nIncluye dirección de arte y guía de estilo.\nEntrega: 24-72h (según pack)`,
+            detail: `Descripción: ${description}\nFormato: ${document.getElementById(ratioId).value}\nCantidad de piezas base: ${cantidadPiezas}\nIncluye dirección de arte y guía de estilo.\nEntrega: 24-72h (según pack)`,
+            applyDiscount: false 
+        };
+        document.getElementById('back-to-source').onclick = () => navigateTo('bundles');
+        navigateTo('client-data');
+    }
+
+    function saveBundleUniverse() {
+        const description = document.getElementById('u-description').value || 'Sin descripción';
+        const imageRatio = document.getElementById('u-image-ratio').value;
+        const videoRatio = document.getElementById('u-video-ratio').value;
+        quoteData = { 
+            service: "BUNDLE - UNIVERSE PACK", 
+            subtotal: 450, 
+            detail: `Descripción: ${description}\nFormato Imágenes: ${imageRatio}\nFormato Videos: ${videoRatio}\nCantidad: 15 imágenes + 3 videos\nIncluye dirección de arte y guía de worldbuilding.\nEntrega: 5-7 días`,
             applyDiscount: false 
         };
         document.getElementById('back-to-source').onclick = () => navigateTo('bundles');
@@ -252,16 +328,47 @@
         const color3 = document.getElementById('brief-color-3-hex').value;
         
         const format = document.getElementById('brief-format').value;
-        const qty = document.getElementById('brief-qty').value;
-        const total = document.getElementById('p-total').innerText;
+        const qtyImages = parseInt(document.getElementById('brief-qty-images').value) || 0;
+        
+        // Calcular precio (para el PDF, no se muestra al usuario)
+        let pricePerImage = 15;
+        let pricePerVideo = 25; // Los videos tienen un costo mayor
+        let total = 0;
+        
+        if (document.getElementById('brief-type').value === 'world') {
+            pricePerImage = 20;
+        } else if (document.getElementById('brief-type').value === 'character') {
+            pricePerImage = 18;
+        }
+        
+        total = qtyImages * pricePerImage;
+        
+        // Obtener cantidad de videos solo si es mundo/universo
+        let qtyVideos = 0;
+        let videoRatio = '';
+        if (document.getElementById('brief-type').value === 'world') {
+            qtyVideos = parseInt(document.getElementById('brief-qty-videos').value) || 0;
+            videoRatio = document.getElementById('video-ratio').value;
+            total += qtyVideos * pricePerVideo;
+        }
 
         if (!projectName) { alert("Por favor, ingresa el nombre del proyecto."); return; }
         if (!description) { alert("Por favor, ingresa una descripción detallada."); return; }
 
+        let detailText = `Proyecto: ${projectName}\nTipo: ${projectType}\nFormato Imágenes: ${format}`;
+        if (videoRatio) {
+            detailText += `\nFormato Videos: ${videoRatio}`;
+        }
+        detailText += `\nCantidad: ${qtyImages} imágenes`;
+        if (qtyVideos > 0) {
+            detailText += `, ${qtyVideos} videos`;
+        }
+        detailText += `\n🎨 Paleta:\n- Principal: ${color1}\n- Secundario: ${color2}\n- Acento: ${color3}\n\nDESCRIPCIÓN:\n${description}\n\nREFERENCIAS:\n${references || 'No especificadas'}\n\n*Incluye dirección de arte y curaduría visual.`;
+
         quoteData = { 
             service: "PROYECTO A MEDIDA", 
-            subtotal: parseInt(total), 
-            detail: `Proyecto: ${projectName}\nTipo: ${projectType}\nFormato: ${format}\nCantidad: ${qty} piezas\n🎨 Paleta:\n- Principal: ${color1}\n- Secundario: ${color2}\n- Acento: ${color3}\n\nDESCRIPCIÓN:\n${description}\n\nREFERENCIAS:\n${references || 'No especificadas'}\n\n*Incluye dirección de arte y curaduría visual.`,
+            subtotal: total, 
+            detail: detailText,
             applyDiscount: false
         };
         document.getElementById('back-to-source').onclick = () => navigateTo('custom');
@@ -274,7 +381,7 @@
         
         quoteData.clientName = name;
         quoteData.total = quoteData.subtotal;
-        document.getElementById('final-summary').innerHTML = `<div style="font-size:3rem; font-weight:900; color:var(--accent);">$${quoteData.total.toFixed(2)}</div>`;
+        // El total ya no se muestra en la página (hidden-total)
         navigateTo('actions');
     }
 
@@ -331,11 +438,6 @@
         doc.text(notas, 15, finalY + 7);
         doc.save(`Cotizacion_IA_${quoteData.clientName.replace(/\s+/g, '_')}.pdf`);
     }
-
-    // Initialize total on page load for custom
-    window.onload = function() {
-        updateCustomTotal();
-    };
 </script>
 </body>
 </html>
