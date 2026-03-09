@@ -47,17 +47,19 @@
 
 <div class="nav-bar">
     <div class="logo" onclick="resetToHome()">NAJARRO X ESTUDIO</div>
-    <div style="font-size: 0.7rem; font-weight: 800; color: var(--accent);">V.2026</div>
+    <div style="font-size: 0.7rem; font-weight: 800; color: var(--accent);">DIRECCIÓN DE ARTE IA | PANAMÁ</div>
 </div>
 
 <div id="home" class="section active">
     <div class="tagline">DIRECCIÓN DE ARTE + INTELIGENCIA ARTIFICIAL</div>
     <h1 style="font-size: clamp(2.2rem, 8vw, 4.5rem); margin: 10px 0 0; font-weight: 900; letter-spacing: -2px;">CREA TU <span class="highlight">UNIVERSO</span></h1>
     <p style="font-size: 1.2rem; margin: 20px 0 40px; opacity: 0.9; max-width: 700px;">No solo generamos imágenes. Diseñamos mundos, personajes y activos de marca con una visión estratégica y curada. Producción con IA, dirección con alma.</p>
-    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+   <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+        <!-- BOTÓN INFO - AHORA ES EL PRIMERO -->
+        <button onclick="window.open('https://najarroxaistudio.netlify.app/info.html', '_self')" style="background:transparent; border:2px solid white; color:white; padding:18px 35px; border-radius:50px; cursor:pointer; font-weight:700;">INFO</button>
         <button class="btn-main" style="width:auto" onclick="navigateTo('bundles')">Ver Bundles</button>
         <button onclick="navigateTo('custom')" style="background:transparent; border:2px solid white; color:white; padding:18px 35px; border-radius:50px; cursor:pointer; font-weight:700;">Proyecto a Medida</button>
-    </div>
+</div>
 </div>
 
 <div class="main-container">
