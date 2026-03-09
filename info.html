@@ -22,6 +22,38 @@
             padding: 20px;
         }
 
+        /* BOTÓN FLOTANTE - SIEMPRE VISIBLE */
+        .btn-flotante {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #3d5afe;
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-flotante:hover {
+            background: #0a0a0a;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .btn-flotante i {
+            font-size: 1.2rem;
+        }
+
         /* CONTENEDOR PRINCIPAL */
         .presentation-container {
             max-width: 1100px;
@@ -349,10 +381,21 @@
             .benefits-grid { grid-template-columns: 1fr; }
             .subhead { max-width: 100%; }
             .process-steps { flex-direction: column; gap: 30px; }
+            .btn-flotante { 
+                bottom: 20px; 
+                right: 20px; 
+                padding: 15px 25px; 
+                font-size: 1rem; 
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- BOTÓN FLOTANTE - SIEMPRE VISIBLE - REGRESO A PÁGINA PRINCIPAL -->
+    <a href="https://najarroxaistudio.netlify.app/" class="btn-flotante" target="_self">
+        <i class="fas fa-pen"></i> ¡LLENA EL BRIEF AHORA!
+    </a>
 
     <!-- CONTENEDOR PRINCIPAL DE LA PRESENTACIÓN -->
     <div class="presentation-container">
