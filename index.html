@@ -7,41 +7,269 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <style>
-        :root { --primary: #0a0a0a; --accent: #3d5afe; --success: #00c853; --radius: 16px; --bg-home: url('https://images.unsplash.com/photo-1634017839464-5c339b3c2b4f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); }
+        :root { 
+            --primary: #000000; 
+            --accent: #00ff33; 
+            --success: #00cc00; 
+            --bg-dark: #0a0a0a;
+            --text-light: #ffffff;
+            --text-dark: #111111;
+            --border-color: #333333;
+            --card-bg: #ffffff;
+            --radius: 0px; /* Estilo brutalista, sin bordes redondeados */
+        }
         html { scroll-behavior: smooth; }
-        * { box-sizing: border-box; font-family: 'Inter', sans-serif; transition: all 0.3s ease; }
-        body { background: #fdfdfd; color: var(--primary); margin: 0; padding: 0; min-height: 100vh; }
-        .nav-bar { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 2000; border-bottom: 1px solid rgba(0,0,0,0.1); }
-        .logo { font-weight: 900; font-size: 1.2rem; letter-spacing: 2px; cursor: pointer; text-transform: uppercase; }
-        #home { height: 100vh; width: 100%; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), var(--bg-home); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 0 20px; }
-        .highlight { color: var(--accent); font-weight: 900; }
-        .main-container { max-width: 1100px; margin: 0 auto; padding: 100px 20px 60px; }
+        * { 
+            box-sizing: border-box; 
+            font-family: 'Inter', 'Courier New', monospace;
+            transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        body { 
+            background: #f5f5f5; 
+            color: var(--text-dark); 
+            margin: 0; 
+            padding: 0; 
+            min-height: 100vh; 
+        }
+        
+        /* Tipografía brutalista */
+        h1, h2, h3, .logo, .btn-main, .btn-back-main, .tagline, .nav-bar div:last-child {
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+        
+        .nav-bar {
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 2000;
+            border-bottom: 2px solid var(--accent);
+        }
+        
+        .logo { 
+            font-weight: 900; 
+            font-size: 1.2rem; 
+            cursor: pointer; 
+            color: var(--text-light);
+        }
+        .logo:hover {
+            color: var(--accent);
+        }
+        
+        #home { 
+            height: 100vh; 
+            width: 100%; 
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('images/hero-bg.png');
+            background-size: cover; 
+            background-position: center; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            color: var(--text-light); 
+            text-align: center; 
+            padding: 0 20px;
+            border-bottom: 4px solid var(--accent);
+        }
+        
+        .highlight { 
+            color: var(--accent); 
+            font-weight: 900;
+            text-shadow: 0 0 10px rgba(0, 255, 51, 0.5);
+        }
+        
+        .main-container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 100px 20px 60px; 
+        }
+        
         .section { display: none; }
-        .section.active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .sticky-nav { position: sticky; top: 75px; z-index: 1500; background: rgba(253, 253, 253, 0.9); padding: 10px 0; margin-bottom: 20px; backdrop-filter: blur(5px); }
-        .btn-back-main { background: #f0f0f0; color: var(--primary); border: none; padding: 10px 20px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 8px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .card { background: white; border-radius: var(--radius); padding: 30px; border: 1px solid #eee; box-shadow: 0 10px 30px rgba(0,0,0,0.02); position: relative; display: flex; flex-direction: column; }
-        .bundle-specs { background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 0.85rem; border-left: 4px solid var(--accent); line-height: 1.5; }
-        .btn-main { background: var(--accent); color: white; border: none; padding: 18px 35px; border-radius: 50px; font-weight: 700; cursor: pointer; width: 100%; text-transform: uppercase; margin-top: auto; }
+        .section.active { display: block; animation: fadeIn 0.3s ease; }
+        
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(5px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        .sticky-nav { 
+            position: sticky; 
+            top: 75px; 
+            z-index: 1500; 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 10px 0; 
+            margin-bottom: 20px; 
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .btn-back-main { 
+            background: transparent; 
+            color: var(--text-dark); 
+            border: 2px solid var(--border-color);
+            padding: 10px 20px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            font-size: 0.8rem; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px;
+            text-transform: uppercase;
+        }
+        .btn-back-main:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 20px; 
+        }
+        
+        .card { 
+            background: var(--card-bg); 
+            padding: 30px; 
+            border: 2px solid var(--border-color);
+            box-shadow: 8px 8px 0 rgba(0, 255, 51, 0.1);
+            position: relative; 
+            display: flex; 
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 12px 12px 0 rgba(0, 255, 51, 0.2);
+            border-color: var(--accent);
+        }
+        
+        .bundle-specs { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            margin: 15px 0; 
+            font-size: 0.85rem; 
+            border-left: 4px solid var(--accent); 
+            line-height: 1.5;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .btn-main { 
+            background: var(--primary); 
+            color: var(--text-light); 
+            border: 2px solid var(--primary);
+            padding: 18px 35px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            width: 100%; 
+            text-transform: uppercase; 
+            margin-top: auto;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-main:hover {
+            background: var(--accent);
+            color: var(--primary);
+            border-color: var(--accent);
+        }
+        .btn-main::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            opacity: 0;
+            transition: all 0.2s;
+        }
+        .btn-main:hover::after {
+            right: 20px;
+            opacity: 1;
+        }
+        
         .form-group { margin-bottom: 15px; text-align: left; }
-        label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.8rem; color: #555; }
-        input, select, textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; font-size: 0.9rem; }
+        label { 
+            display: block; 
+            font-weight: 700; 
+            margin-bottom: 8px; 
+            font-size: 0.8rem; 
+            color: var(--text-dark);
+            text-transform: uppercase;
+            font-family: 'Courier New', monospace;
+        }
+        input, select, textarea { 
+            width: 100%; 
+            padding: 12px; 
+            border: 2px solid var(--border-color);
+            font-size: 0.9rem;
+            background: white;
+            font-family: 'Courier New', monospace;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+        
         .char-counter { font-size: 0.7rem; color: #888; text-align: right; margin-top: 4px; }
+        
         .color-picker-group { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
-        .color-picker-group input[type="color"] { width: 60px; height: 45px; padding: 5px; flex-shrink: 0; cursor: pointer; border-radius: 8px; }
+        .color-picker-group input[type="color"] { 
+            width: 60px; 
+            height: 45px; 
+            padding: 5px; 
+            flex-shrink: 0; 
+            cursor: pointer; 
+            border: 2px solid var(--border-color);
+        }
         .color-picker-group input[type="text"] { flex-grow: 1; }
-        .color-section-title { font-size: 0.9rem; font-weight: 600; margin: 15px 0 5px 0; color: var(--primary); }
-        .checkbox-group { display: grid; grid-template-columns: 1fr; gap: 8px; background: #fff; padding: 10px; border: 1px solid #eee; border-radius: 10px; }
-        .checkbox-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; cursor: pointer; }
-        .checkbox-item input { width: auto; }
-        footer { background: #000; color: white; padding: 60px 20px; text-align: center; }
+        
+        .color-section-title { 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            margin: 15px 0 5px 0; 
+            color: var(--primary);
+            text-transform: uppercase;
+            font-family: 'Courier New', monospace;
+        }
+        
+        footer { 
+            background: var(--primary); 
+            color: var(--text-light); 
+            padding: 60px 20px; 
+            text-align: center;
+            border-top: 4px solid var(--accent);
+        }
+        
         .footer-logo-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
-        .footer-logo-img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; }
+        .footer-logo-img { width: 50px; height: 50px; object-fit: cover; }
+        
         .social-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 25px; }
-        .social-links a { color: var(--accent); text-decoration: none; font-weight: bold; font-size: 0.9rem; }
-        .tagline { font-size: 1.2rem; letter-spacing: 4px; font-weight: 300; margin-bottom: 10px; }
+        .social-links a { 
+            color: var(--accent); 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            border: 1px solid var(--accent);
+            padding: 8px 16px;
+        }
+        .social-links a:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+        
+        .tagline { 
+            font-size: 1.2rem; 
+            letter-spacing: 4px; 
+            font-weight: 300; 
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+        
         /* Ocultar información de precios en el Brief y en "¡Propuesta Lista!" */
         .hidden-price, .hidden-total { display: none; }
         
@@ -52,34 +280,76 @@
             gap: 15px;
             margin-bottom: 15px;
         }
+        
+        /* Efecto glitch para títulos (sutil) */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-1px, 1px); }
+            40% { transform: translate(1px, -1px); }
+            60% { transform: translate(-1px, 1px); }
+            80% { transform: translate(1px, -1px); }
+            100% { transform: translate(0); }
+        }
+        h1:hover {
+            animation: glitch 0.3s infinite;
+        }
+        
+        /* Botones de home con estilo brutalista */
+        .home-buttons button {
+            border: 2px solid var(--text-light);
+            background: transparent;
+            color: var(--text-light);
+            padding: 18px 35px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+        .home-buttons button:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--primary);
+        }
+        .home-buttons .btn-main {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--primary);
+        }
+        .home-buttons .btn-main:hover {
+            background: transparent;
+            color: var(--text-light);
+            border-color: var(--text-light);
+        }
     </style>
 </head>
 <body>
 
 <div class="nav-bar">
     <div class="logo" onclick="resetToHome()">NAJARRO X ESTUDIO</div>
-    <div style="font-size: 0.7rem; font-weight: 800; color: var(--accent);">DIRECCIÓN DE ARTE IA | GT | PANAMÁ</div>
+    <div style="font-size: 0.7rem; font-weight: 800; color: var(--accent);"> GT | PANAMÁ </div>
 </div>
 
 <div id="home" class="section active">
     <div class="tagline">DIRECCIÓN DE ARTE + INTELIGENCIA ARTIFICIAL</div>
     <h1 style="font-size: clamp(2.2rem, 8vw, 4.5rem); margin: 10px 0 0; font-weight: 900; letter-spacing: -2px;">CREA TU <span class="highlight">UNIVERSO</span></h1>
     <p style="font-size: 1.2rem; margin: 20px 0 40px; opacity: 0.9; max-width: 700px;">No solo generamos imágenes. Diseñamos mundos, personajes y activos de marca con una visión estratégica y curada. Producción con IA, dirección con alma.</p>
-   <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+   <div class="home-buttons" style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
         <!-- BOTÓN INFO - AHORA ES EL PRIMERO -->
-        <button onclick="window.open('https://najarroxaistudio.netlify.app/info.html', '_self')" style="background:transparent; border:2px solid white; color:white; padding:18px 35px; border-radius:50px; cursor:pointer; font-weight:700;">INFO</button>
+        <button onclick="window.open('info.html', '_self')">INFO</button>
         <button class="btn-main" style="width:auto" onclick="navigateTo('bundles')">Ver Bundles</button>
-        <button onclick="navigateTo('custom')" style="background:transparent; border:2px solid white; color:white; padding:18px 35px; border-radius:50px; cursor:pointer; font-weight:700;">Proyecto a Medida</button>
+        <button onclick="navigateTo('custom')">Proyecto a Medida</button>
     </div>
 </div>
 
 <div class="main-container">
     <div id="bundles" class="section">
         <div class="sticky-nav"><button class="btn-back-main" onclick="resetToHome()">← VOLVER AL INICIO</button></div>
-        <h2 style="margin-bottom: 10px;">Bundles con Dirección de Arte Aplicada (Entrega desde 24h)</h2>
+        <h2 style="margin-bottom: 10px; font-family: 'Courier New', monospace; text-transform: uppercase;">Bundles con Dirección de Arte Aplicada <span style="color: var(--accent);">(Entrega desde 24h)</span></h2>
         <div class="grid">
             <div class="card">
-                <h3>AVATAR PACK</h3>
+                <h3 style="font-family: 'Courier New', monospace;">AVATAR PACK</h3>
                 <div class="bundle-specs">• 10 Imágenes 4K de un personaje/mascota único<br>• 1 Personaje desarrollado en 10 poses/expresiones<br>• Guía de personalidad del personaje<br>• Ideal para branding, mascotas de marca, NFTs<br>• Entrega: 24 Horas</div>
                 <div class="form-group">
                     <label>Descripción breve de tu idea (máx. 200 caracteres)</label>
@@ -87,11 +357,11 @@
                     <div class="char-counter"><span id="s-counter">0</span>/200 caracteres</div>
                 </div>
                 <div class="form-group"><label>Formato Principal:</label><select id="s-ratio"><option>9:16 (Vertical - Reels/Stories)</option><option>16:9 (Horizontal - Web/Youtube)</option><option>1:1 (Cuadrado - Feed)</option></select></div>
-                <div style="font-size: 2.2rem; font-weight: 900; margin-bottom: 20px;">$120</div>
+                <div style="font-size: 2.2rem; font-weight: 900; margin-bottom: 20px; color: var(--accent);">$120</div>
                 <button class="btn-main" onclick="saveBundle('AVATAR PACK', 120, 's-description', 's-ratio', 10)">Seleccionar</button>
             </div>
-            <div class="card" style="border: 2px solid var(--accent);">
-                <h3>PRODUCT SHOT PACK</h3>
+            <div class="card" style="border-color: var(--accent);">
+                <h3 style="font-family: 'Courier New', monospace;">PRODUCT SHOT PACK</h3>
                 <div class="bundle-specs">• 25 Imágenes 4K de un producto físico existente<br>• Diferentes ángulos, fondos y contextos<br>• Narrativa visual del producto (estilo de vida, aspiracional)<br>• Ideal e-commerce, catálogos, campañas de lanzamiento<br>• Entrega: 48 Horas</div>
                 <div class="form-group">
                     <label>Descripción breve de tu producto (máx. 200 caracteres)</label>
@@ -99,11 +369,11 @@
                     <div class="char-counter"><span id="p-counter">0</span>/200 caracteres</div>
                 </div>
                 <div class="form-group"><label>Formato Principal:</label><select id="p-ratio"><option>9:16 (Vertical - Reels/Stories)</option><option>16:9 (Horizontal - Web/Youtube)</option><option>1:1 (Cuadrado - Feed)</option></select></div>
-                <div style="font-size: 2.2rem; font-weight: 900; margin-bottom: 20px;">$250</div>
+                <div style="font-size: 2.2rem; font-weight: 900; margin-bottom: 20px; color: var(--accent);">$250</div>
                 <button class="btn-main" onclick="saveBundle('PRODUCT SHOT PACK', 250, 'p-description', 'p-ratio', 25)">Seleccionar</button>
             </div>
             <div class="card">
-                <h3>UNIVERSE PACK</h3>
+                <h3 style="font-family: 'Courier New', monospace;">UNIVERSE PACK</h3>
                 <div class="bundle-specs">• 15 Imágenes 4K de un universo conceptual<br>• 3 Videos IA para Reels (máx. 15s c/u) del mundo creado<br>• Guía de worldbuilding (atmósfera, reglas visuales)<br>• Ideal para campañas conceptuales, mood films, worldbuilding<br>• Entrega: 5-7 Días</div>
                 <div class="form-group">
                     <label>Descripción breve de tu universo (máx. 200 caracteres)</label>
@@ -112,7 +382,7 @@
                 </div>
                 <div class="form-group"><label>Formato de Imágenes:</label><select id="u-image-ratio"><option>9:16 (Vertical - Reels/Stories)</option><option>16:9 (Horizontal - Web/Youtube)</option><option>1:1 (Cuadrado - Feed)</option></select></div>
                 <div class="form-group"><label>Formato de Videos:</label><select id="u-video-ratio"><option>9:16 (Vertical - Reels/Stories)</option><option>16:9 (Horizontal - Web/Youtube)</option></select></div>
-                <div style="font-size: 2.2rem; font-weight: 900; margin-bottom: 20px;">$450</div>
+                <div style="font-size: 2.2rem; font-weight: 900; margin-bottom: 20px; color: var(--accent);">$450</div>
                 <button class="btn-main" onclick="saveBundleUniverse()">Seleccionar</button>
             </div>
         </div>
@@ -121,8 +391,8 @@
     <div id="custom" class="section">
         <div class="sticky-nav"><button class="btn-back-main" onclick="resetToHome()">← VOLVER AL INICIO</button></div>
         <div class="card" style="max-width: 700px; margin: 0 auto; text-align: left;">
-            <h2 style="text-align: center;">Brief de Dirección de Arte</h2>
-            <p style="font-size: 0.85rem; color: #666; margin-bottom: 25px; text-align: center;">Cuéntanos tu visión. Nosotros la convertimos en un universo coherente y estratégico. Recibirás una propuesta detallada en PDF.</p>
+            <h2 style="text-align: center; font-family: 'Courier New', monospace;">Brief de Dirección de Arte</h2>
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 25px; text-align: center; font-family: 'Courier New', monospace;">Cuéntanos tu visión. Nosotros la convertimos en un universo coherente y estratégico. Recibirás una propuesta detallada en PDF.</p>
             
             <div class="form-group"><label>Nombre del Proyecto / Marca *</label><input type="text" id="brief-name" placeholder="Ej: Lanzamiento Zapatillas 'Neo-Run'"></div>
             
@@ -144,24 +414,24 @@
             <div class="form-group">
                 <label>Color Principal (Identidad de marca)</label>
                 <div class="color-picker-group">
-                    <input type="color" id="brief-color-1-picker" value="#3d5afe" oninput="document.getElementById('brief-color-1-hex').value = this.value">
-                    <input type="text" id="brief-color-1-hex" placeholder="#3d5afe" value="#3d5afe" oninput="document.getElementById('brief-color-1-picker').value = this.value">
+                    <input type="color" id="brief-color-1-picker" value="#00ff33" oninput="document.getElementById('brief-color-1-hex').value = this.value">
+                    <input type="text" id="brief-color-1-hex" placeholder="#00ff33" value="#00ff33" oninput="document.getElementById('brief-color-1-picker').value = this.value">
                 </div>
             </div>
 
             <div class="form-group">
                 <label>Color Secundario (Complemento / Contraste)</label>
                 <div class="color-picker-group">
-                    <input type="color" id="brief-color-2-picker" value="#00c853" oninput="document.getElementById('brief-color-2-hex').value = this.value">
-                    <input type="text" id="brief-color-2-hex" placeholder="#00c853" value="#00c853" oninput="document.getElementById('brief-color-2-picker').value = this.value">
+                    <input type="color" id="brief-color-2-picker" value="#000000" oninput="document.getElementById('brief-color-2-hex').value = this.value">
+                    <input type="text" id="brief-color-2-hex" placeholder="#000000" value="#000000" oninput="document.getElementById('brief-color-2-picker').value = this.value">
                 </div>
             </div>
 
             <div class="form-group">
                 <label>Color de Acento (Detalles/Highlight)</label>
                 <div class="color-picker-group">
-                    <input type="color" id="brief-color-3-picker" value="#ff6d00" oninput="document.getElementById('brief-color-3-hex').value = this.value">
-                    <input type="text" id="brief-color-3-hex" placeholder="#ff6d00" value="#ff6d00" oninput="document.getElementById('brief-color-3-picker').value = this.value">
+                    <input type="color" id="brief-color-3-picker" value="#ffffff" oninput="document.getElementById('brief-color-3-hex').value = this.value">
+                    <input type="text" id="brief-color-3-hex" placeholder="#ffffff" value="#ffffff" oninput="document.getElementById('brief-color-3-picker').value = this.value">
                 </div>
             </div>
             
@@ -196,14 +466,14 @@
                 <div id="p-total">75</div>
             </div>
 
-            <button class="btn-main" onclick="saveCustom()">Continuar a Datos de Contacto</button>
+            <button class="btn-main" onclick="saveCustom()">Continuar a Datos de Contacto →</button>
         </div>
     </div>
 
     <div id="client-data" class="section">
         <div class="sticky-nav"><button class="btn-back-main" id="back-to-source">← REGRESAR</button></div>
         <div class="card" style="max-width: 500px; margin: 0 auto;">
-            <h2>Contacto</h2>
+            <h2 style="font-family: 'Courier New', monospace;">Contacto</h2>
             <div class="form-group"><label>Nombre *</label><input type="text" id="c-name"></div>
             <div class="form-group"><label>WhatsApp *</label><input type="text" id="c-phone" placeholder="+507 1234-5678"></div>
             <div class="form-group"><label>Email *</label><input type="email" id="c-email" placeholder="cliente@email.com"></div>
@@ -213,10 +483,10 @@
 
     <div id="actions" class="section">
         <div class="card" style="text-align: center; max-width: 500px; margin: 0 auto;">
-            <h2 style="color: var(--success);">¡Propuesta Lista!</h2>
+            <h2 style="color: var(--success); font-family: 'Courier New', monospace;">¡Propuesta Lista!</h2>
             <div id="final-summary" class="hidden-total" style="margin: 30px 0;"></div>
             <button class="btn-main" onclick="downloadPDF()">Descargar PDF</button>
-            <button class="btn-main" style="background:#25D366; margin-top:12px;" onclick="sendWhatsApp()">Confirmar WhatsApp</button>
+            <button class="btn-main" style="background:var(--accent); color:var(--primary); margin-top:12px;" onclick="sendWhatsApp()">Confirmar WhatsApp</button>
             <button class="btn-back-main" style="margin-top: 30px; width:100%; justify-content:center;" onclick="resetToHome()">INICIO</button>
         </div>
     </div>
