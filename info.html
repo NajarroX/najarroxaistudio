@@ -6,9 +6,6 @@
     <title>NAJARRO X ESTUDIO | Presentación Ejecutiva</title>
     <!-- Font Awesome para íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- jsPDF y html2canvas para la descarga PDF REAL -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -22,13 +19,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 20px;
         }
 
-        /* CONTENEDOR PRINCIPAL - SIMULA UNA PRESENTACIÓN */
+        /* CONTENEDOR PRINCIPAL */
         .presentation-container {
             max-width: 1100px;
             width: 100%;
-            margin: 20px auto;
+            margin: 0 auto;
             background: white;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             border-radius: 24px;
@@ -39,14 +37,14 @@
         .slide {
             padding: 60px 50px;
             border-bottom: 1px solid #eee;
-            page-break-inside: avoid; /* para PDF */
+            background: white;
         }
 
         .slide:last-child {
             border-bottom: none;
         }
 
-        /* HEADER CON LOGO (REUTILIZABLE EN CADA SLIDE) */
+        /* HEADER */
         .slide-header {
             display: flex;
             justify-content: space-between;
@@ -60,7 +58,7 @@
             gap: 15px;
         }
 
-        .logo-img-placeholder {
+        .logo-img {
             width: 50px;
             height: 50px;
             border-radius: 8px;
@@ -71,7 +69,7 @@
             background: #f0f0f0;
         }
 
-        .logo-img-placeholder img {
+        .logo-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -93,7 +91,7 @@
             border-radius: 40px;
         }
 
-        /* ÁREAS DE IMAGEN - AHORA CON IMG DIRECTA */
+        /* ÁREAS DE IMAGEN */
         .image-area {
             background: #f0f4f8;
             border-radius: 20px;
@@ -149,13 +147,14 @@
         }
 
         .subhead {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #555;
             max-width: 80%;
             margin-bottom: 30px;
+            line-height: 1.5;
         }
 
-        /* TABLAS Y TARJETAS */
+        /* BUNDLES */
         .bundle-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -203,9 +202,10 @@
             margin: 20px 0 10px;
         }
 
-        .benefits-list {
+        /* BENEFICIOS */
+        .benefits-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
             margin: 30px 0;
         }
@@ -232,7 +232,7 @@
             font-size: 0.9rem;
         }
 
-        /* TABLA DE PRECIOS */
+        /* TABLA */
         .pricing-table {
             width: 100%;
             border-collapse: collapse;
@@ -264,37 +264,34 @@
             background: rgba(61, 90, 254, 0.05);
         }
 
-        /* BOTONES */
-        .btn-pdf {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #0a0a0a;
+        /* PROCESO */
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 60px 0;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .step-number {
+            background: #3d5afe;
             color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-weight: bold;
         }
 
-        .btn-pdf:hover {
-            background: #3d5afe;
-            transform: translateY(-2px);
-        }
-
-        .btn-pdf:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
+        /* BOTONES */
         .btn-link {
             display: inline-block;
             background: #3d5afe;
@@ -306,6 +303,10 @@
             margin-top: 20px;
             border: none;
             cursor: pointer;
+        }
+
+        .btn-link:hover {
+            background: #0a0a0a;
         }
 
         .tech-badge {
@@ -345,27 +346,23 @@
             .slide { padding: 40px 25px; }
             h1 { font-size: 2.5rem; }
             .bundle-grid { grid-template-columns: 1fr; }
-            .benefits-list { grid-template-columns: 1fr; }
+            .benefits-grid { grid-template-columns: 1fr; }
             .subhead { max-width: 100%; }
+            .process-steps { flex-direction: column; gap: 30px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- BOTÓN FLOTANTE PARA DESCARGAR PDF REAL -->
-    <button class="btn-pdf" onclick="downloadPresentationPDF()">
-        <i class="fas fa-file-pdf"></i> Descargar Presentación (PDF)
-    </button>
-
     <!-- CONTENEDOR PRINCIPAL DE LA PRESENTACIÓN -->
-    <div id="presentation-content" class="presentation-container">
+    <div class="presentation-container">
 
         <!-- SLIDE 1: PORTADA -->
-        <section class="slide" id="slide1">
+        <section class="slide">
             <div class="slide-header">
                 <div class="logo-area">
-                    <div class="logo-img-placeholder">
-                        <img src="images/logo-najarro.png" alt="Logo Najarro X Estudio" onerror="this.parentNode.innerHTML='<span style=\'color:#888;\'>LOGO</span>';">
+                    <div class="logo-img">
+                        <img src="images/logo-najarro.png" alt="Logo Najarro X Estudio" onerror="this.innerHTML='<span style=\'color:#888;\'>LOGO</span>'; this.style.background='#f0f0f0';">
                     </div>
                     <span class="logo-text">NAJARRO X ESTUDIO</span>
                 </div>
@@ -374,7 +371,7 @@
 
             <div style="margin-top: 60px; margin-bottom: 40px;">
                 <h1>CREA TU <span class="highlight">UNIVERSO</span></h1>
-                <div class="subhead">Dirección de Arte con Inteligencia Artificial para marcas que crean tendencias.</div>
+                <div class="subhead">Dirección de Arte con Inteligencia Artificial para marcas que crean tendencias, no que las siguen.</div>
             </div>
 
             <!-- ÁREA DE IMAGEN: Portada -->
@@ -384,11 +381,11 @@
         </section>
 
         <!-- SLIDE 2: EL PROBLEMA -->
-        <section class="slide" id="slide2">
+        <section class="slide">
             <div class="slide-header">
                 <div class="logo-area">
-                    <div class="logo-img-placeholder">
-                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.parentNode.innerHTML='<span>LOGO</span>';">
+                    <div class="logo-img">
+                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.innerHTML='LOGO';">
                     </div>
                     <span class="logo-text">NAJARRO X ESTUDIO</span>
                 </div>
@@ -413,11 +410,11 @@
         </section>
 
         <!-- SLIDE 3: NUESTRA SOLUCIÓN -->
-        <section class="slide" id="slide3">
+        <section class="slide">
             <div class="slide-header">
                 <div class="logo-area">
-                    <div class="logo-img-placeholder">
-                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.parentNode.innerHTML='<span>LOGO</span>';">
+                    <div class="logo-img">
+                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.innerHTML='LOGO';">
                     </div>
                     <span class="logo-text">NAJARRO X ESTUDIO</span>
                 </div>
@@ -448,11 +445,11 @@
         </section>
 
         <!-- SLIDE 4: LOS BUNDLES -->
-        <section class="slide" id="slide4">
+        <section class="slide">
             <div class="slide-header">
                 <div class="logo-area">
-                    <div class="logo-img-placeholder">
-                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.parentNode.innerHTML='<span>LOGO</span>';">
+                    <div class="logo-img">
+                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.innerHTML='LOGO';">
                     </div>
                     <span class="logo-text">NAJARRO X ESTUDIO</span>
                 </div>
@@ -467,7 +464,7 @@
                     <h4>AVATAR PACK</h4>
                     <ul class="bundle-specs">
                         <li><i class="fas fa-check"></i> 10 imágenes 4K</li>
-                        <li><i class="fas fa-check"></i> Personaje único, 10 poses</li>
+                        <li><i class="fas fa-check"></i> Personaje único en 10 poses</li>
                         <li><i class="fas fa-check"></i> Guía de personalidad</li>
                         <li><i class="fas fa-check"></i> Entrega: 24h</li>
                     </ul>
@@ -500,11 +497,11 @@
         </section>
 
         <!-- SLIDE 5: BENEFICIOS DE NEGOCIO -->
-        <section class="slide" id="slide5">
+        <section class="slide">
             <div class="slide-header">
                 <div class="logo-area">
-                    <div class="logo-img-placeholder">
-                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.parentNode.innerHTML='<span>LOGO</span>';">
+                    <div class="logo-img">
+                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.innerHTML='LOGO';">
                     </div>
                     <span class="logo-text">NAJARRO X ESTUDIO</span>
                 </div>
@@ -513,7 +510,7 @@
 
             <h2>Lo que realmente <span class="highlight">importa</span></h2>
 
-            <div class="benefits-list">
+            <div class="benefits-grid">
                 <div class="benefit-item">
                     <i class="fas fa-chart-line"></i>
                     <h4>Diferenciación instantánea</h4>
@@ -547,11 +544,11 @@
         </section>
 
         <!-- SLIDE 6: DIFERENCIAL TÉCNICO -->
-        <section class="slide" id="slide6">
+        <section class="slide">
             <div class="slide-header">
                 <div class="logo-area">
-                    <div class="logo-img-placeholder">
-                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.parentNode.innerHTML='<span>LOGO</span>';">
+                    <div class="logo-img">
+                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.innerHTML='LOGO';">
                     </div>
                     <span class="logo-text">NAJARRO X ESTUDIO</span>
                 </div>
@@ -569,7 +566,7 @@
                     <p style="margin: 30px 0; font-size: 1.1rem;">A diferencia de herramientas online donde "lo que ves es lo que hay", nosotros utilizamos entornos profesionales que garantizan consistencia, control y seguridad.</p>
                     
                     <a href="#" class="btn-link" onclick="window.open('https://najarrox.com/tecnologia', '_blank'); return false;">
-                        <i class="fas fa-download"></i> Descargar PDF técnico
+                        <i class="fas fa-download"></i> Conocer más
                     </a>
                 </div>
                 <div class="image-area" style="flex: 1;">
@@ -579,11 +576,11 @@
         </section>
 
         <!-- SLIDE 7: CASOS DE USO -->
-        <section class="slide" id="slide7">
+        <section class="slide">
             <div class="slide-header">
                 <div class="logo-area">
-                    <div class="logo-img-placeholder">
-                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.parentNode.innerHTML='<span>LOGO</span>';">
+                    <div class="logo-img">
+                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.innerHTML='LOGO';">
                     </div>
                     <span class="logo-text">NAJARRO X ESTUDIO</span>
                 </div>
@@ -618,11 +615,11 @@
         </section>
 
         <!-- SLIDE 8: PROCESO -->
-        <section class="slide" id="slide8">
+        <section class="slide">
             <div class="slide-header">
                 <div class="logo-area">
-                    <div class="logo-img-placeholder">
-                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.parentNode.innerHTML='<span>LOGO</span>';">
+                    <div class="logo-img">
+                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.innerHTML='LOGO';">
                     </div>
                     <span class="logo-text">NAJARRO X ESTUDIO</span>
                 </div>
@@ -631,24 +628,24 @@
 
             <h2>Cómo <span class="highlight">colaboramos</span></h2>
 
-            <div style="display: flex; justify-content: space-between; margin: 60px 0; flex-wrap: wrap;">
-                <div style="text-align: center; flex:1; min-width: 150px;">
-                    <div style="background: #3d5afe; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-weight: bold;">1</div>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
                     <h4>Brief estratégico</h4>
                     <p style="font-size: 0.9rem;">Completas un formulario simple</p>
                 </div>
-                <div style="text-align: center; flex:1; min-width: 150px;">
-                    <div style="background: #3d5afe; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-weight: bold;">2</div>
+                <div class="step">
+                    <div class="step-number">2</div>
                     <h4>Dirección de arte</h4>
                     <p style="font-size: 0.9rem;">Analizamos y proponemos enfoques</p>
                 </div>
-                <div style="text-align: center; flex:1; min-width: 150px;">
-                    <div style="background: #3d5afe; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-weight: bold;">3</div>
+                <div class="step">
+                    <div class="step-number">3</div>
                     <h4>Producción con IA</h4>
                     <p style="font-size: 0.9rem;">Control absoluto, iteración rápida</p>
                 </div>
-                <div style="text-align: center; flex:1; min-width: 150px;">
-                    <div style="background: #3d5afe; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-weight: bold;">4</div>
+                <div class="step">
+                    <div class="step-number">4</div>
                     <h4>Entrega</h4>
                     <p style="font-size: 0.9rem;">Archivos listos, derechos incluidos</p>
                 </div>
@@ -656,11 +653,11 @@
         </section>
 
         <!-- SLIDE 9: PRECIOS -->
-        <section class="slide" id="slide9">
+        <section class="slide">
             <div class="slide-header">
                 <div class="logo-area">
-                    <div class="logo-img-placeholder">
-                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.parentNode.innerHTML='<span>LOGO</span>';">
+                    <div class="logo-img">
+                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.innerHTML='LOGO';">
                     </div>
                     <span class="logo-text">NAJARRO X ESTUDIO</span>
                 </div>
@@ -684,12 +681,12 @@
             <p>💡 Proyectos a medida desde $15 por imagen.</p>
         </section>
 
-        <!-- SLIDE 10: PRÓXIMOS PASOS (con redes sociales actualizadas) -->
-        <section class="slide" id="slide10">
+        <!-- SLIDE 10: PRÓXIMOS PASOS -->
+        <section class="slide">
             <div class="slide-header">
                 <div class="logo-area">
-                    <div class="logo-img-placeholder">
-                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.parentNode.innerHTML='<span>LOGO</span>';">
+                    <div class="logo-img">
+                        <img src="images/logo-najarro.png" alt="Logo" onerror="this.innerHTML='LOGO';">
                     </div>
                     <span class="logo-text">NAJARRO X ESTUDIO</span>
                 </div>
@@ -700,8 +697,8 @@
 
             <div style="background: #f0f4f8; border-radius: 24px; padding: 40px; margin: 40px 0; text-align: center;">
                 <p style="font-size: 1.3rem; margin-bottom: 30px;">1️⃣ Completa nuestro brief estratégico (5-10 minutos)</p>
-                <a href="#" class="btn-link" style="font-size: 1.2rem;" onclick="window.open('https://najarrox.com/brief', '_blank'); return false;">
-                    <i class="fas fa-pen"></i> najarrox.com/brief
+                <a href="#" class="btn-link" style="font-size: 1.2rem;" onclick="window.open('https://najarroxaistudio.netlify.app/', '_self'); return false;">
+                    <i class="fas fa-pen"></i> Llena el brief
                 </a>
                 <p style="margin: 30px 0 10px;">2️⃣ Recibirás una propuesta en 24h</p>
                 <p style="margin: 10px 0;">3️⃣ Aprobación y producción inmediata</p>
@@ -721,73 +718,5 @@
             </div>
         </section>
     </div>
-
-    <script>
-        function downloadPresentationPDF() {
-            const element = document.getElementById('presentation-content');
-            
-            // Mostrar mensaje de carga
-            const btn = document.querySelector('.btn-pdf');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando PDF...';
-            btn.disabled = true;
-
-            // Opciones de html2canvas para mejor calidad
-            const options = {
-                scale: 2,
-                logging: false,
-                backgroundColor: '#ffffff',
-                allowTaint: true,
-                useCORS: true,
-                // Mejorar la captura de imágenes
-                onclone: function(clonedDoc) {
-                    // Asegurar que las imágenes se carguen
-                    const images = clonedDoc.querySelectorAll('img');
-                    images.forEach(img => {
-                        if (img.src && !img.complete) {
-                            // Esperar a que carguen
-                        }
-                    });
-                }
-            };
-
-            // Usar html2canvas para capturar toda la presentación
-            html2canvas(element, options).then((canvas) => {
-                // Crear PDF en orientación vertical
-                const pdf = new jspdf.jsPDF({
-                    orientation: 'portrait',
-                    unit: 'px',
-                    format: [canvas.width, canvas.height]
-                });
-
-                // Agregar la imagen al PDF
-                const imgData = canvas.toDataURL('image/png');
-                pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-                
-                // Guardar el PDF
-                pdf.save('NajarroX_Presentacion_Ejecutiva.pdf');
-
-                // Restaurar botón
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }).catch(error => {
-                console.error('Error al generar PDF:', error);
-                alert('Hubo un error al generar el PDF. Por favor intenta de nuevo.');
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            });
-        }
-
-        // Pequeña mejora: precargar imágenes para el PDF
-        window.addEventListener('load', function() {
-            // Forzar carga de imágenes
-            const images = document.querySelectorAll('img');
-            images.forEach(img => {
-                if (img.src && !img.complete) {
-                    img.loading = 'eager';
-                }
-            });
-        });
-    </script>
 </body>
 </html>
