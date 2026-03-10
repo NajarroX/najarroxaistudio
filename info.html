@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>NAJARRO X ESTUDIO | Presentación Ejecutiva</title>
     <!-- Font Awesome para íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -31,7 +31,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 10px;
+            overflow-x: hidden;
+            width: 100%;
         }
 
         /* Tipografía brutalista */
@@ -43,25 +45,27 @@
 
         /* BOTÓN FLOTANTE - CORREGIDO: SOLO POSITION FIXED */
         .btn-flotante {
-            position: fixed !important;  /* FORZAMOS FIXED */
-            bottom: 30px;
-            right: 30px;
+            position: fixed !important;
+            bottom: 20px;
+            right: 20px;
             background: var(--primary);
             color: var(--text-light);
             border: 2px solid var(--accent);
-            padding: 18px 35px;
+            padding: 15px 25px;
             font-weight: 700;
             cursor: pointer;
             box-shadow: 8px 8px 0 rgba(0, 255, 51, 0.2);
             z-index: 9999;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.1rem;
+            gap: 8px;
+            font-size: 1rem;
             transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
             text-decoration: none;
             text-transform: uppercase;
             overflow: hidden;
+            max-width: calc(100vw - 40px);
+            white-space: nowrap;
         }
 
         .btn-flotante:hover {
@@ -102,9 +106,11 @@
 
         /* CADA DIAPOSITIVA */
         .slide {
-            padding: 60px 50px;
+            padding: 40px 30px;
             border-bottom: 2px solid var(--border-color);
             background: var(--card-bg);
+            width: 100%;
+            overflow-x: hidden;
         }
 
         .slide:last-child {
@@ -114,28 +120,46 @@
         /* HEADER */
         .slide-header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
             margin-bottom: 30px;
             border-bottom: 2px solid var(--accent);
             padding-bottom: 15px;
+        }
+
+        @media (min-width: 769px) {
+            .slide-header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
         }
 
         .logo-area {
             display: flex;
             align-items: center;
             gap: 15px;
+            flex-wrap: wrap;
         }
 
         .logo-img {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border: 2px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             background: #f0f0f0;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 769px) {
+            .logo-img {
+                width: 50px;
+                height: 50px;
+            }
         }
 
         .logo-img img {
@@ -146,18 +170,33 @@
 
         .logo-text {
             font-weight: 900;
-            font-size: 1.2rem;
+            font-size: 1rem;
             letter-spacing: 2px;
             color: var(--primary);
+            word-break: break-word;
+        }
+
+        @media (min-width: 769px) {
+            .logo-text {
+                font-size: 1.2rem;
+            }
         }
 
         .slide-tag {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: 600;
             color: var(--accent);
             background: transparent;
-            padding: 6px 12px;
+            padding: 4px 8px;
             border: 2px solid var(--accent);
+            white-space: nowrap;
+        }
+
+        @media (min-width: 769px) {
+            .slide-tag {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
         }
 
         /* ÁREAS DE IMAGEN */
@@ -167,7 +206,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 180px;
+            min-height: 150px;
             width: 100%;
             margin: 20px 0;
             overflow: hidden;
@@ -178,35 +217,54 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            max-width: 100%;
         }
 
         .image-area .placeholder-text {
             color: #888;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             font-family: 'Courier New', monospace;
+            text-align: center;
+            padding: 10px;
+            word-break: break-word;
         }
 
         /* TIPOGRAFÍA */
         h1 {
-            font-size: 3.2rem;
+            font-size: 2.2rem;
             font-weight: 900;
-            letter-spacing: -2px;
+            letter-spacing: -1px;
             line-height: 1.1;
             margin-bottom: 15px;
+            word-wrap: break-word;
+        }
+
+        @media (min-width: 769px) {
+            h1 {
+                font-size: 3.2rem;
+                letter-spacing: -2px;
+            }
         }
 
         h2 {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 800;
             letter-spacing: -1px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+            word-wrap: break-word;
+        }
+
+        @media (min-width: 769px) {
+            h2 {
+                font-size: 2.2rem;
+            }
         }
 
         h3 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
             margin-bottom: 15px;
         }
@@ -216,131 +274,184 @@
         }
 
         .subhead {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #555;
-            max-width: 80%;
-            margin-bottom: 30px;
-            line-height: 1.5;
+            max-width: 100%;
+            margin-bottom: 20px;
+            line-height: 1.4;
             font-family: 'Courier New', monospace;
+        }
+
+        @media (min-width: 769px) {
+            .subhead {
+                font-size: 1.1rem;
+                max-width: 80%;
+            }
         }
 
         /* BUNDLES */
         .bundle-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin: 40px 0;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        @media (min-width: 640px) {
+            .bundle-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .bundle-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
         }
 
         .bundle-card {
             background: #fafafa;
-            padding: 30px 25px;
+            padding: 20px;
             border: 2px solid var(--border-color);
             box-shadow: 8px 8px 0 rgba(0, 255, 51, 0.1);
             transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .bundle-card:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 12px 12px 0 rgba(0, 255, 51, 0.2);
-            border-color: var(--accent);
+            width: 100%;
+            overflow: hidden;
         }
 
         .bundle-card h4 {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 800;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             font-family: 'Courier New', monospace;
             border-bottom: 2px solid var(--accent);
             display: inline-block;
-            padding-bottom: 5px;
+            padding-bottom: 3px;
         }
 
         .bundle-specs {
             list-style: none;
-            margin: 15px 0;
+            margin: 10px 0;
         }
 
         .bundle-specs li {
-            padding: 6px 0;
+            padding: 5px 0;
             border-bottom: 1px solid #eee;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             font-family: 'Courier New', monospace;
+            word-wrap: break-word;
         }
 
         .bundle-specs li i {
             color: var(--accent);
-            width: 20px;
+            width: 18px;
+            flex-shrink: 0;
         }
 
         .price-tag {
-            font-size: 2rem;
+            font-size: 1.6rem;
             font-weight: 900;
             color: var(--accent);
-            margin: 20px 0 10px;
+            margin: 15px 0 5px;
             font-family: 'Courier New', monospace;
         }
 
         /* BENEFICIOS */
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin: 30px 0;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        @media (min-width: 640px) {
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
         }
 
         .benefit-item {
             background: #f8f9fa;
-            padding: 25px;
+            padding: 20px;
             border: 2px solid var(--border-color);
             box-shadow: 4px 4px 0 rgba(0, 255, 51, 0.1);
+            width: 100%;
         }
 
         .benefit-item i {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: var(--accent);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .benefit-item h4 {
-            font-size: 1.2rem;
-            margin-bottom: 8px;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
             font-family: 'Courier New', monospace;
         }
 
         .benefit-item p {
             color: #555;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-family: 'Courier New', monospace;
+            line-height: 1.4;
         }
 
-        /* TABLA */
+        /* TABLA - CORREGIDA PARA MÓVIL */
         .pricing-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 40px 0;
+            margin: 30px 0;
             background: white;
             border: 2px solid var(--border-color);
             box-shadow: 8px 8px 0 rgba(0, 255, 51, 0.1);
+            display: block;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .pricing-table table {
+            width: 100%;
+            min-width: 500px; /* Forza scroll horizontal si es necesario */
+            border-collapse: collapse;
         }
 
         .pricing-table th {
             background: var(--primary);
             color: var(--text-light);
-            padding: 15px;
+            padding: 12px 8px;
             text-align: left;
             font-weight: 600;
             font-family: 'Courier New', monospace;
             border-bottom: 2px solid var(--accent);
+            font-size: 0.8rem;
         }
 
         .pricing-table td {
-            padding: 15px;
+            padding: 10px 8px;
             border-bottom: 1px solid var(--border-color);
             font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+        }
+
+        @media (min-width: 640px) {
+            .pricing-table {
+                display: table;
+                overflow-x: visible;
+            }
+            .pricing-table table {
+                min-width: 100%;
+            }
+            .pricing-table th,
+            .pricing-table td {
+                padding: 15px;
+                font-size: 0.9rem;
+            }
         }
 
         .pricing-table tr:last-child td {
@@ -351,36 +462,93 @@
             background: rgba(0, 255, 51, 0.05);
         }
 
+        /* CASOS DE USO - CORREGIDO */
+        .casos-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        @media (min-width: 640px) {
+            .casos-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .casos-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .caso-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            width: 100%;
+        }
+
+        .caso-item .image-area {
+            min-height: 100px;
+            margin: 0 0 10px 0;
+        }
+
+        .caso-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .caso-item p {
+            font-size: 0.8rem;
+            font-family: 'Courier New', monospace;
+            line-height: 1.4;
+        }
+
         /* PROCESO */
         .process-steps {
-            display: flex;
-            justify-content: space-between;
-            margin: 60px 0;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        @media (min-width: 640px) {
+            .process-steps {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
         }
 
         .step {
             text-align: center;
             flex: 1;
-            min-width: 150px;
+            min-width: 120px;
         }
 
         .step-number {
             background: var(--accent);
             color: var(--primary);
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
+            margin: 0 auto 10px;
             font-weight: bold;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             border: 2px solid var(--primary);
         }
 
         .step h4 {
-            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .step p {
+            font-size: 0.75rem;
         }
 
         /* BOTONES */
@@ -389,15 +557,19 @@
             background: var(--primary);
             color: var(--text-light);
             text-decoration: none;
-            padding: 12px 30px;
+            padding: 10px 20px;
             font-weight: 600;
-            margin-top: 20px;
+            margin-top: 15px;
             border: 2px solid var(--accent);
             cursor: pointer;
             font-family: 'Courier New', monospace;
             text-transform: uppercase;
             position: relative;
             overflow: hidden;
+            font-size: 0.9rem;
+            max-width: 100%;
+            white-space: normal;
+            word-wrap: break-word;
         }
 
         .btn-link:hover {
@@ -421,31 +593,58 @@
 
         .tech-badge {
             background: transparent;
-            padding: 8px 16px;
+            padding: 6px 12px;
             border: 2px solid var(--accent);
             display: inline-block;
             font-weight: 600;
-            font-size: 0.85rem;
-            margin-right: 10px;
-            margin-bottom: 10px;
+            font-size: 0.75rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
             font-family: 'Courier New', monospace;
         }
 
         .footer-contact {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            margin-top: 40px;
-            padding-top: 30px;
+            gap: 20px;
+            margin-top: 30px;
+            padding-top: 20px;
             border-top: 2px solid var(--accent);
+        }
+
+        @media (min-width: 640px) {
+            .footer-contact {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        .footer-contact div {
+            text-align: center;
+            font-size: 0.8rem;
+            word-wrap: break-word;
+        }
+
+        @media (min-width: 640px) {
+            .footer-contact div {
+                text-align: left;
+            }
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .social-links a {
             color: var(--primary);
-            margin-left: 20px;
             text-decoration: none;
             font-weight: 500;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             transition: color 0.2s;
             border: 1px solid transparent;
             padding: 5px;
@@ -470,18 +669,50 @@
             animation: glitch 0.3s infinite;
         }
 
-        @media (max-width: 768px) {
-            .slide { padding: 40px 25px; }
-            h1 { font-size: 2.5rem; }
-            .bundle-grid { grid-template-columns: 1fr; }
-            .benefits-grid { grid-template-columns: 1fr; }
-            .subhead { max-width: 100%; }
-            .process-steps { flex-direction: column; gap: 30px; }
-            .btn-flotante { 
-                bottom: 20px; 
-                right: 20px; 
-                padding: 15px 25px; 
-                font-size: 1rem; 
+        /* Media queries específicas para móvil */
+        @media (max-width: 480px) {
+            .slide {
+                padding: 25px 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.4rem;
+            }
+            
+            .bundle-card {
+                padding: 15px;
+            }
+            
+            .bundle-card h4 {
+                font-size: 1rem;
+            }
+            
+            .price-tag {
+                font-size: 1.4rem;
+            }
+            
+            .benefit-item {
+                padding: 15px;
+            }
+            
+            .btn-flotante {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .btn-flotante i {
+                font-size: 1rem;
+            }
+            
+            .process-steps {
+                grid-template-columns: 1fr;
+                gap: 15px;
             }
         }
     </style>
@@ -508,7 +739,7 @@
                 <div class="slide-tag">Dirección de Arte + IA</div>
             </div>
 
-            <div style="margin-top: 60px; margin-bottom: 40px;">
+            <div style="margin-top: 30px; margin-bottom: 30px;">
                 <h1>CREA TU <span class="highlight">UNIVERSO</span></h1>
                 <div class="subhead">Dirección de Arte con Inteligencia Artificial para marcas que crean tendencias.</div>
             </div>
@@ -533,13 +764,13 @@
 
             <h2>El contenido visual genérico <span class="highlight">ya no conecta</span></h2>
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin: 40px 0;">
+            <div style="display: grid; grid-template-columns: 1fr; gap: 20px; margin: 30px 0;">
                 <div>
-                    <p style="font-size: 1.1rem; margin-bottom: 20px; font-family: 'Courier New', monospace;">Los bancos de imágenes se ven todos iguales. Las agencias tradicionales son lentas y costosas. La IA sin dirección produce resultados aleatorios.</p>
+                    <p style="font-size: 1rem; margin-bottom: 15px; font-family: 'Courier New', monospace;">Los bancos de imágenes se ven todos iguales. Las agencias tradicionales son lentas y costosas. La IA sin dirección produce resultados aleatorios.</p>
                     <ul style="list-style: none;">
-                        <li style="margin-bottom: 15px; font-family: 'Courier New', monospace;"><i class="fas fa-times-circle" style="color: #dc3545; margin-right: 10px;"></i> Sin identidad propia</li>
-                        <li style="margin-bottom: 15px; font-family: 'Courier New', monospace;"><i class="fas fa-times-circle" style="color: #dc3545; margin-right: 10px;"></i> Procesos lentos</li>
-                        <li style="margin-bottom: 15px; font-family: 'Courier New', monospace;"><i class="fas fa-times-circle" style="color: #dc3545; margin-right: 10px;"></i> Resultados inconsistentes</li>
+                        <li style="margin-bottom: 12px; font-family: 'Courier New', monospace; display: flex; align-items: center;"><i class="fas fa-times-circle" style="color: #dc3545; margin-right: 10px; flex-shrink: 0;"></i> <span>Sin identidad propia</span></li>
+                        <li style="margin-bottom: 12px; font-family: 'Courier New', monospace; display: flex; align-items: center;"><i class="fas fa-times-circle" style="color: #dc3545; margin-right: 10px; flex-shrink: 0;"></i> <span>Procesos lentos</span></li>
+                        <li style="margin-bottom: 12px; font-family: 'Courier New', monospace; display: flex; align-items: center;"><i class="fas fa-times-circle" style="color: #dc3545; margin-right: 10px; flex-shrink: 0;"></i> <span>Resultados inconsistentes</span></li>
                     </ul>
                 </div>
                 <div class="image-area">
@@ -563,18 +794,18 @@
             <h2>Dirección de Arte <span class="highlight">+ IA</span></h2>
             <div class="subhead">No solo generamos imágenes. Diseñamos universos visuales completos con control absoluto.</div>
 
-            <div style="display: flex; gap: 30px; margin: 40px 0; flex-wrap: wrap;">
-                <div style="flex:1; min-width: 200px; text-align: center;">
-                    <div style="font-size: 3rem; color: var(--accent);">🎯</div>
-                    <h4 style="font-family: 'Courier New', monospace;">Visión estratégica</h4>
+            <div style="display: grid; grid-template-columns: 1fr; gap: 20px; margin: 30px 0;">
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; color: var(--accent);">🎯</div>
+                    <h4 style="font-family: 'Courier New', monospace; margin-top: 5px;">Visión estratégica</h4>
                 </div>
-                <div style="flex:1; min-width: 200px; text-align: center;">
-                    <div style="font-size: 3rem; color: var(--accent);">🎨</div>
-                    <h4 style="font-family: 'Courier New', monospace;">Coherencia estética</h4>
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; color: var(--accent);">🎨</div>
+                    <h4 style="font-family: 'Courier New', monospace; margin-top: 5px;">Coherencia estética</h4>
                 </div>
-                <div style="flex:1; min-width: 200px; text-align: center;">
-                    <div style="font-size: 3rem; color: var(--accent);">⚡</div>
-                    <h4 style="font-family: 'Courier New', monospace;">Velocidad de producción</h4>
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; color: var(--accent);">⚡</div>
+                    <h4 style="font-family: 'Courier New', monospace; margin-top: 5px;">Velocidad de producción</h4>
                 </div>
             </div>
 
@@ -632,7 +863,7 @@
                     <div class="price-tag">$450</div>
                 </div>
             </div>
-            <p style="text-align: center; margin-top: 20px; font-family: 'Courier New', monospace;"><i class="fas fa-arrow-right"></i> ¿Necesitas algo a medida? Consulta por proyectos personalizados.</p>
+            <p style="text-align: center; margin-top: 15px; font-family: 'Courier New', monospace; font-size: 0.9rem;"><i class="fas fa-arrow-right"></i> ¿Necesitas algo a medida? Consulta por proyectos personalizados.</p>
         </section>
 
         <!-- SLIDE 5: BENEFICIOS DE NEGOCIO -->
@@ -696,19 +927,19 @@
 
             <h2>Control total con <span class="highlight">tecnología local</span></h2>
 
-            <div style="display: flex; gap: 30px; flex-wrap: wrap; margin: 30px 0;">
-                <div style="flex: 2;">
+            <div style="display: grid; grid-template-columns: 1fr; gap: 20px; margin: 20px 0;">
+                <div>
                     <div class="tech-badge"><i class="fas fa-cube"></i> ComfyUI</div>
                     <div class="tech-badge"><i class="fas fa-server"></i> Infraestructura local</div>
                     <div class="tech-badge"><i class="fas fa-shield-alt"></i> Privacidad total</div>
                     
-                    <p style="margin: 30px 0; font-size: 1.1rem; font-family: 'Courier New', monospace;">A diferencia de herramientas online donde "lo que ves es lo que hay", nosotros utilizamos entornos profesionales que garantizan consistencia, control y seguridad.</p>
+                    <p style="margin: 20px 0; font-size: 1rem; font-family: 'Courier New', monospace;">A diferencia de herramientas online donde "lo que ves es lo que hay", nosotros utilizamos entornos profesionales que garantizan consistencia, control y seguridad.</p>
                     
                     <a href="#" class="btn-link" onclick="window.open('https://najarrox.com/tecnologia', '_blank'); return false;">
                         <i class="fas fa-download"></i> Conocer más
                     </a>
                 </div>
-                <div class="image-area" style="flex: 1;">
+                <div class="image-area">
                     <img src="images/workflow-comfyui.png" alt="Workflow ComfyUI" onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'placeholder-text\'><i class=\'fas fa-image\'></i> workflow-comfyui.png</div>';">
                 </div>
             </div>
@@ -728,27 +959,27 @@
 
             <h2>Ejemplos <span class="highlight">conceptuales</span></h2>
 
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 40px 0;">
-                <div style="background: #f8f9fa; padding: 20px; border: 2px solid var(--border-color);">
-                    <div class="image-area" style="min-height: 120px; margin: 0 0 15px 0;">
+            <div class="casos-grid">
+                <div class="caso-item">
+                    <div class="image-area" style="min-height: 100px;">
                         <img src="images/moda.png" alt="Moda" onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'placeholder-text\'><i class=\'fas fa-image\'></i> moda.png</div>';">
                     </div>
-                    <h4 style="font-family: 'Courier New', monospace;">Moda</h4>
-                    <p style="font-family: 'Courier New', monospace;">Product Shot Pack para nueva colección. Aumenta el engagement.</p>
+                    <h4>Moda</h4>
+                    <p>Product Shot Pack para nueva colección. Aumenta el engagement.</p>
                 </div>
-                <div style="background: #f8f9fa; padding: 20px; border: 2px solid var(--border-color);">
-                    <div class="image-area" style="min-height: 120px; margin: 0 0 15px 0;">
+                <div class="caso-item">
+                    <div class="image-area" style="min-height: 100px;">
                         <img src="images/startup.png" alt="Startup" onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'placeholder-text\'><i class=\'fas fa-image\'></i> startup.png</div>';">
                     </div>
-                    <h4 style="font-family: 'Courier New', monospace;">Startup Tech</h4>
-                    <p style="font-family: 'Courier New', monospace;">Avatar Pack para mascota de marca. Reconocimiento inmediato.</p>
+                    <h4>Startup Tech</h4>
+                    <p>Avatar Pack para mascota de marca. Reconocimiento inmediato.</p>
                 </div>
-                <div style="background: #f8f9fa; padding: 20px; border: 2px solid var(--border-color);">
-                    <div class="image-area" style="min-height: 120px; margin: 0 0 15px 0;">
+                <div class="caso-item">
+                    <div class="image-area" style="min-height: 100px;">
                         <img src="images/bebida.png" alt="Bebida" onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'placeholder-text\'><i class=\'fas fa-image\'></i> bebida.png</div>';">
                     </div>
-                    <h4 style="font-family: 'Courier New', monospace;">Bebida Artesanal</h4>
-                    <p style="font-family: 'Courier New', monospace;">Universo visual con imágen y video para campañas. Ideal para lanzamientos.</p>
+                    <h4>Bebida Artesanal</h4>
+                    <p>Universo visual con imágen y video para campañas. Ideal para lanzamientos.</p>
                 </div>
             </div>
         </section>
@@ -771,22 +1002,22 @@
                 <div class="step">
                     <div class="step-number">1</div>
                     <h4>Brief estratégico</h4>
-                    <p style="font-size: 0.9rem; font-family: 'Courier New', monospace;">Completas un formulario simple</p>
+                    <p style="font-size: 0.8rem;">Completas un formulario simple</p>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
                     <h4>Dirección de arte</h4>
-                    <p style="font-size: 0.9rem; font-family: 'Courier New', monospace;">Analizamos y proponemos enfoques</p>
+                    <p style="font-size: 0.8rem;">Analizamos y proponemos enfoques</p>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
                     <h4>Producción con IA</h4>
-                    <p style="font-size: 0.9rem; font-family: 'Courier New', monospace;">Control absoluto, iteración rápida</p>
+                    <p style="font-size: 0.8rem;">Control absoluto, iteración rápida</p>
                 </div>
                 <div class="step">
                     <div class="step-number">4</div>
                     <h4>Entrega</h4>
-                    <p style="font-size: 0.9rem; font-family: 'Courier New', monospace;">Archivos listos, derechos incluidos</p>
+                    <p style="font-size: 0.8rem;">Archivos listos, derechos incluidos</p>
                 </div>
             </div>
         </section>
@@ -805,19 +1036,21 @@
 
             <h2>Precios <span class="highlight">transparentes</span></h2>
 
-            <table class="pricing-table">
-                <thead>
-                    <tr><th>Pack</th><th>Piezas</th><th>Entrega</th><th>Inversión</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>AVATAR PACK</td><td>10</td><td>24h</td><td><strong>$120</strong></td></tr>
-                    <tr class="highlight-row"><td>PRODUCT SHOT PACK</td><td>25</td><td>48h</td><td><strong>$250</strong></td></tr>
-                    <tr><td>UNIVERSE PACK</td><td>15+3</td><td>5-7d</td><td><strong>$450</strong></td></tr>
-                </tbody>
-            </table>
+            <div class="pricing-table">
+                <table>
+                    <thead>
+                        <tr><th>Pack</th><th>Piezas</th><th>Entrega</th><th>Inversión</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>AVATAR PACK</td><td>10</td><td>24h</td><td><strong>$120</strong></td></tr>
+                        <tr class="highlight-row"><td>PRODUCT SHOT PACK</td><td>25</td><td>48h</td><td><strong>$250</strong></td></tr>
+                        <tr><td>UNIVERSE PACK</td><td>15+3</td><td>5-7d</td><td><strong>$450</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <p style="margin-top: 20px; font-family: 'Courier New', monospace;">✅ Todos incluyen derechos comerciales, guía de estilo y archivos 4K.</p>
-            <p style="font-family: 'Courier New', monospace;">💡 Proyectos a medida desde $15 por imagen.</p>
+            <p style="margin-top: 15px; font-family: 'Courier New', monospace; font-size: 0.85rem;">✅ Todos incluyen derechos comerciales, guía de estilo y archivos 4K.</p>
+            <p style="font-family: 'Courier New', monospace; font-size: 0.85rem;">💡 Proyectos a medida desde $15 por imagen.</p>
         </section>
 
         <!-- SLIDE 10: PRÓXIMOS PASOS -->
@@ -834,13 +1067,13 @@
 
             <h2>¿Listo para <span class="highlight">crear tu universo</span>?</h2>
 
-            <div style="background: #f0f4f8; padding: 40px; margin: 40px 0; text-align: center; border: 2px solid var(--border-color); box-shadow: 8px 8px 0 rgba(0, 255, 51, 0.1);">
-                <p style="font-size: 1.3rem; margin-bottom: 30px; font-family: 'Courier New', monospace;">1️⃣ Completa nuestro brief estratégico (5-10 minutos)</p>
-                <a href="#" class="btn-link" style="font-size: 1.2rem;" onclick="window.open('index.html', '_self'); return false;">
+            <div style="background: #f0f4f8; padding: 25px; margin: 30px 0; text-align: center; border: 2px solid var(--border-color); box-shadow: 8px 8px 0 rgba(0, 255, 51, 0.1);">
+                <p style="font-size: 1.1rem; margin-bottom: 20px; font-family: 'Courier New', monospace;">1️⃣ Completa nuestro brief estratégico (5-10 minutos)</p>
+                <a href="#" class="btn-link" style="font-size: 1rem;" onclick="window.open('index.html', '_self'); return false;">
                     <i class="fas fa-pen"></i> Llena el brief
                 </a>
-                <p style="margin: 30px 0 10px; font-family: 'Courier New', monospace;">2️⃣ Recibirás una propuesta en 24h</p>
-                <p style="margin: 10px 0; font-family: 'Courier New', monospace;">3️⃣ Aprobación y producción inmediata</p>
+                <p style="margin: 20px 0 8px; font-family: 'Courier New', monospace; font-size: 0.9rem;">2️⃣ Recibirás una propuesta en 24h</p>
+                <p style="margin: 5px 0; font-family: 'Courier New', monospace; font-size: 0.9rem;">3️⃣ Aprobación y producción inmediata</p>
             </div>
 
             <div class="footer-contact">
