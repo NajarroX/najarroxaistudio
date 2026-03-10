@@ -54,13 +54,25 @@
             border-bottom: 2px solid var(--accent);
         }
         
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+        }
+        
         .logo { 
             font-weight: 900; 
             font-size: 1.2rem; 
-            cursor: pointer; 
             color: var(--text-light);
         }
-        .logo:hover {
+        .logo-container:hover .logo {
             color: var(--accent);
         }
         
@@ -327,7 +339,10 @@
 <body>
 
 <div class="nav-bar">
-    <div class="logo" onclick="resetToHome()">NAJARRO X ESTUDIO</div>
+    <div class="logo-container" onclick="resetToHome()">
+        <img src="images/NAJARROX-logoB.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+        <div class="logo">NAJARRO X ESTUDIO</div>
+    </div>
     <div style="font-size: 0.7rem; font-weight: 800; color: var(--accent);"> GT | PTY </div>
 </div>
 
