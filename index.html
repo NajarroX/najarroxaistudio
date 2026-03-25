@@ -16,7 +16,7 @@
             --text-dark: #111111;
             --border-color: #333333;
             --card-bg: #ffffff;
-            --radius: 0px; /* Estilo brutalista, sin bordes redondeados */
+            --radius: 0px;
         }
         html { scroll-behavior: smooth; }
         * { 
@@ -351,9 +351,8 @@
     <h1 style="font-size: clamp(2.2rem, 8vw, 4.5rem); margin: 10px 0 0; font-weight: 900; letter-spacing: -2px;">CREA TU <span class="highlight">UNIVERSO</span></h1>
     <p style="font-size: 1.2rem; margin: 20px 0 40px; opacity: 0.9; max-width: 700px;">No solo generamos imágenes. Diseñamos mundos, personajes y activos de marca con una visión estratégica y curada. Producción con IA, dirección con alma.</p>
    <div class="home-buttons" style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-        <!-- BOTÓN INFO - AHORA ES EL PRIMERO -->
         <button onclick="window.open('info.html', '_self')">INFO</button>
-        <button style="width:auto" onclick="navigateTo('bundles')">Ver Bundles</button>
+        <button onclick="navigateTo('bundles')">Ver Bundles</button>
         <button onclick="navigateTo('custom')">Proyecto a Medida</button>
     </div>
 </div>
@@ -526,6 +525,12 @@
     const { jsPDF } = window.jspdf;
     let quoteData = {};
 
+    // ============================================================
+    // CONFIGURACIÓN DE GOOGLE SHEETS
+    // 👇 REEMPLAZA ESTA URL CON LA QUE OBTUVISTE DE APPS SCRIPT
+    const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/1bsn-4RDCffOJMbGbj7soyGBoLYzvjy9SgJiWRgVIR6o/exec";
+    // ============================================================
+
     // Contadores de caracteres para los bundles
     document.addEventListener('DOMContentLoaded', function() {
         // Contador para Avatar Pack
@@ -660,13 +665,42 @@
         navigateTo('client-data');
     }
 
+    // ============================================================
+    // FUNCIÓN PARA GUARDAR EN GOOGLE SHEETS
+    // ============================================================
+    function guardarEnGoogleSheets() {
+        const datos = {
+            nombre: quoteData.clientName,
+            whatsapp: document.getElementById('c-phone').value,
+            email: document.getElementById('c-email').value,
+            servicio: quoteData.service,
+            detalles: quoteData.detail,
+            total: "$" + quoteData.total.toFixed(2)
+        };
+        
+        // Envío silencioso a Google Sheets (no afecta la experiencia del usuario)
+        fetch(GOOGLE_SHEETS_URL, {
+            method: 'POST',
+            mode: 'no-cors', // Importante para evitar errores de CORS
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(datos)
+        }).catch(error => console.error('Error al guardar en Google Sheets:', error));
+        
+        // Log para depuración (opcional, puedes eliminarlo después)
+        console.log("Cotización guardada en Google Sheets:", datos);
+    }
+    // ============================================================
+
     function finalStep() {
         const name = document.getElementById('c-name').value;
         if (!name) { alert("Por favor ingresa tu nombre."); return; }
         
         quoteData.clientName = name;
         quoteData.total = quoteData.subtotal;
-        // El total ya no se muestra en la página (hidden-total)
+        
+        // 🔥 NUEVO: Guardar en Google Sheets
+        guardarEnGoogleSheets();
+        
         navigateTo('actions');
     }
 
